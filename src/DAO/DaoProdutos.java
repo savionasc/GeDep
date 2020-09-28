@@ -69,11 +69,11 @@ public class DaoProdutos extends ConexaoMySql {
         try {
             this.conectar();
             return this.executarUpdateDeleteSQL(
-                    "UPDATE tbl_produto SET ("
-                            + "pro_nome = '+"+pModelProdutos.getProNome()+"',"
-                            + "pro_valor = '+"+pModelProdutos.getProValor()+"',"
-                            + "pro_estoque = '+"+pModelProdutos.getProEstoque()+"')"
-                            + "WHERE pk_id_produto = '"+pModelProdutos.getIdProduto()+"'"
+                    "UPDATE tbl_produto SET"
+                            + " pro_nome = '"+pModelProdutos.getProNome()+"',"
+                            + " pro_valor = '"+pModelProdutos.getProValor()+"',"
+                            + " pro_estoque = '"+pModelProdutos.getProEstoque()+"'"
+                            + " WHERE pk_id_produto = '"+pModelProdutos.getIdProduto()+"'"
             );
         } catch (Exception e) {
             e.printStackTrace();
