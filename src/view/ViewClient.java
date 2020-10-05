@@ -5,17 +5,29 @@
  */
 package view;
 
+import controller.ControllerCliente;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.ModelCliente;
+
 /**
  *
  * @author Sávio
  */
 public class ViewClient extends javax.swing.JFrame {
+    
+    ControllerCliente controllerCliente = new ControllerCliente();
+    ModelCliente modelCliente = new ModelCliente();
+    ArrayList<ModelCliente> listaModelClientes = new ArrayList<>();
 
     /**
      * Creates new form ViewClient
      */
     public ViewClient() {
         initComponents();
+        carregarCliente();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -77,7 +89,7 @@ public class ViewClient extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nome do CLiente", "Cidade", "Telefone"
+                "Código", "Nome do Cliente", "Cidade", "Telefone"
             }
         ) {
             Class[] types = new Class [] {
@@ -111,6 +123,11 @@ public class ViewClient extends javax.swing.JFrame {
 
         jbSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/Checked.png"))); // NOI18N
         jbSalvar.setText("Salvar");
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalvarActionPerformed(evt);
+            }
+        });
 
         jbAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/edit.png"))); // NOI18N
         jbAlterar.setText("Alterar");
@@ -239,6 +256,40 @@ public class ViewClient extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // TODO add your handling code here:
+        modelCliente.setCliNome(this.jtfNome.getText());
+        modelCliente.setCliTelefone(this.jtfTelefone.getText());
+        modelCliente.setCliEndereco(this.jtfEndereco.getText());
+        modelCliente.setCliCidade(this.jtfCidade.getText());
+        modelCliente.setCliBairro(this.jtfBairro.getText());
+        modelCliente.setCliCep(this.jtfCEP.getText());
+        modelCliente.setCliUf(this.jcbUF.getSelectedItem().toString());
+        
+        if(controllerCliente.salvarClienteController(modelCliente) > 0){
+            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            //Carregar os clientes na tabela
+            carregarCliente();
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao salvar registro!", "ERRO", JOptionPane.ERROR_MESSAGE);            
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    
+    private void carregarCliente () {
+        listaModelClientes = controllerCliente.getListaClienteController();
+        DefaultTableModel modelo = (DefaultTableModel) jtCliente.getModel();
+        modelo.setNumRows(0);
+        int count = listaModelClientes.size();
+        for (int i = 0; i < count; i++) {
+            modelo.addRow(new Object[]{
+                listaModelClientes.get(i).getIdCliente(),
+                listaModelClientes.get(i).getCliNome(),
+                listaModelClientes.get(i).getCliCidade(),
+                listaModelClientes.get(i).getCliTelefone()
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */
