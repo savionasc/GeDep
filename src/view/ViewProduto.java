@@ -70,6 +70,7 @@ public class ViewProduto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Produtos");
+        setResizable(false);
 
         jLabel1.setText("Produtos");
 
@@ -424,6 +425,7 @@ public class ViewProduto extends javax.swing.JFrame {
         jtfNome.setEnabled(condicao);
         jtfEstoque.setEnabled(condicao);
         jtfValor.setEnabled(condicao);
+        jbSalvar.setEnabled(condicao);
     }
     
     /**
