@@ -115,6 +115,37 @@ public class DaoProdutos extends ConexaoMySql {
     }
     
     /**
+     * retorna um produto pelo codigo
+     * @param pNomeProduto
+     * @return modelProduto
+     */
+    public ModelProdutos retornarProdutoDAO(String pNomeProduto){
+        ModelProdutos modelProdutos = new ModelProdutos();
+        try {
+            this.conectar();
+            this.executarSQL("SELECT "
+                    + "pk_id_produto,"
+                    + "pro_nome,"
+                    + "pro_valor,"
+                    + "pro_estoque "
+                    + "FROM tbl_produto WHERE pro_nome = '"+pNomeProduto+"'");
+            
+            while (this.getResultSet().next()) {
+                modelProdutos.setIdProduto(this.getResultSet().getInt(1));
+                modelProdutos.setProNome(this.getResultSet().getString(2));
+                modelProdutos.setProValor(this.getResultSet().getDouble(3));
+                modelProdutos.setProEstoque(this.getResultSet().getInt(4));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.fecharConexao();
+        }
+        
+        return modelProdutos;
+    }
+    
+    /**
      * Retornar uma lista de produtos
      * @return listaModelProdutos
      */
@@ -145,5 +176,29 @@ public class DaoProdutos extends ConexaoMySql {
         }
         
         return listaModelProdutos;
+    }
+
+    /**
+     * Alterar estoque de produtos do banco
+     * @param pListaModelProdutos
+     * @return boolean
+     */
+    public boolean alterarEstoqueProdutosDAO(ArrayList<ModelProdutos> pListaModelProdutos) {
+        try {
+            this.conectar();
+            for (int i = 0; i < pListaModelProdutos.size(); i++) {
+                this.executarUpdateDeleteSQL(
+                    "UPDATE tbl_produto SET"
+                            + " pro_estoque = '"+pListaModelProdutos.get(i).getProEstoque()+"'"
+                            + " WHERE pk_id_produto = '"+pListaModelProdutos.get(i).getIdProduto()+"'"
+                );
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            this.fecharConexao();
+        }
     }
 }

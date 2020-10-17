@@ -13,6 +13,15 @@ public class ControllerVendasProdutos {
     private DAOVendasProdutos daoVendasProdutos = new DAOVendasProdutos();
 
     /**
+    * salva uma lista de produtos da venda
+    * @param pListaModelVendasProdutos
+    * @return boolean
+    */
+    public boolean salvarVendasProdutosController(ArrayList<ModelVendasProdutos> pListaModelVendasProdutos){
+        return this.daoVendasProdutos.salvarVendasProdutosDAO(pListaModelVendasProdutos);
+    }
+    
+    /**
     * grava VendasProdutos
     * @param pModelVendasProdutos
     * @return int
