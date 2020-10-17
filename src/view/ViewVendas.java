@@ -7,6 +7,7 @@ package view;
 
 import controller.ControllerCliente;
 import controller.ControllerProdutos;
+import controller.ControllerProdutosVendasProdutos;
 import controller.ControllerVendas;
 import controller.ControllerVendasCliente;
 import controller.ControllerVendasProdutos;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelCliente;
 import model.ModelProdutos;
+import model.ModelProdutosVendasProdutos;
 import model.ModelVendas;
 import model.ModelVendasCliente;
 import model.ModelVendasProdutos;
@@ -40,6 +42,9 @@ public class ViewVendas extends javax.swing.JFrame {
     ControllerVendasProdutos controllerVendasProdutos = new ControllerVendasProdutos();
     ModelVendasProdutos modelVendasProdutos = new ModelVendasProdutos();
     ArrayList<ModelVendasProdutos> listaModelVendasProdutos = new ArrayList<>();
+    ControllerProdutosVendasProdutos controllerProdutosVendasProdutos = new ControllerProdutosVendasProdutos();
+    ModelProdutosVendasProdutos modelProdutosVendasProdutos = new ModelProdutosVendasProdutos();
+    ArrayList<ModelProdutosVendasProdutos> listaModelProdutosVendasProdutoses = new ArrayList<>();
 
     /**
      * Creates new form ViewVendas
@@ -377,13 +382,33 @@ public class ViewVendas extends javax.swing.JFrame {
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // TODO add your handling code here:
         int linhaSelecionada = jtVendas.getSelectedRow();
-        int codigo = (int) jtVendas.getValueAt(linhaSelecionada, 0);
-        if(controllerVendas.excluirVendasController(codigo)){
-            JOptionPane.showMessageDialog(this, "Venda excluida com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
-            carregarVendas();
+        int codigoVenda = (int) jtVendas.getValueAt(linhaSelecionada, 0);
+        listaModelProdutos = new ArrayList<>();
+        listaModelProdutosVendasProdutoses = controllerProdutosVendasProdutos.getListaProdutosVendasProdutosController(codigoVenda);
+        
+        for (int i = 0; i < listaModelProdutosVendasProdutoses.size(); i++) {
+            modelProdutos = new ModelProdutos();
+            modelProdutos.setIdProduto(listaModelProdutosVendasProdutoses.get(i).getModelProdutos().getIdProduto());
+            modelProdutos.setProEstoque(
+                    listaModelProdutosVendasProdutoses.get(i).getModelProdutos().getProEstoque()
+                    +
+                    listaModelProdutosVendasProdutoses.get(i).getModelVendasProdutos().getVenProQuantidade());
+            listaModelProdutos.add(modelProdutos);
+        }
+        
+        if(controllerProdutos.alterarEstoqueProdutoController(listaModelProdutos)){
+            controllerVendasProdutos.excluirVendasProdutosController(codigoVenda);
+            if(controllerVendas.excluirVendasController(codigoVenda)){
+                JOptionPane.showMessageDialog(this, "Venda excluida com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
+                this.carregarVendas();
+            }else{
+                JOptionPane.showMessageDialog(this, "Erro ao excluir a venda!", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         }else{
             JOptionPane.showMessageDialog(this, "Erro ao excluir a venda!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        
+        
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdicionarActionPerformed
@@ -576,6 +601,7 @@ public class ViewVendas extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) jtVendas.getModel();
         listaModelVendasClientes = controllerVendasCliente.getListaVendasClienteController();
         int count = listaModelVendasClientes.size();
+        modelo.setNumRows(0);
         for (int i = 0; i < count; i++) {
             modelo.addRow(new Object[]{
                 listaModelVendasClientes.get(i).getModelVendas().getIdVenda(),
