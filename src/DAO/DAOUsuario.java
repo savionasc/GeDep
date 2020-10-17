@@ -155,4 +155,35 @@ public class DAOUsuario extends ConexaoMySql {
             this.fecharConexao();
         }
     }
+
+    public boolean getValidarUsuarioDAO(ModelUsuario pModelUsuario) {
+        ModelUsuario modelUsuario = new ModelUsuario();
+        try {
+            this.conectar();
+            this.executarSQL(
+                "SELECT "
+                    + "pk_id_usuario,"
+                    + "usu_nome,"
+                    + "usu_login,"
+                    + "usu_senha"
+                 + " FROM"
+                     + " tbl_usuario"
+                 + " WHERE"
+                     + " pk_id_usuario = '" + pModelUsuario.getUsuLogin() + "' AND usu_senha = '"+pModelUsuario.getUsuSenha()+"';"
+            );
+            
+            if(getResultSet().next()){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }finally{
+            this.fecharConexao();
+        }
+    }
+
+    
 }
