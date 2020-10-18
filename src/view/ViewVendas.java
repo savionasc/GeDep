@@ -45,7 +45,7 @@ public class ViewVendas extends javax.swing.JFrame {
     ControllerProdutosVendasProdutos controllerProdutosVendasProdutos = new ControllerProdutosVendasProdutos();
     ModelProdutosVendasProdutos modelProdutosVendasProdutos = new ModelProdutosVendasProdutos();
     ArrayList<ModelProdutosVendasProdutos> listaModelProdutosVendasProdutos = new ArrayList<>();
-    String alterarSalvar;
+    String alterarSalvar = "salvar";
     
     /**
      * Creates new form ViewVendas
@@ -73,13 +73,11 @@ public class ViewVendas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jtfCodigoCliente = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jcbNomeCliente = new componentes.UJComboBox();
         jLabel2 = new javax.swing.JLabel();
         jtfNumeroVenda = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jtfCodigoProduto = new javax.swing.JTextField();
-        jcbNomeProduto = new componentes.UJComboBox();
         jtfQuantidade = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -94,6 +92,8 @@ public class ViewVendas extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jbAdicionar = new javax.swing.JButton();
         jbRemover = new javax.swing.JButton();
+        jcbNomeProduto = new componentes.UJComboBox();
+        jcbNomeCliente = new componentes.UJComboBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jtfPesquisa = new javax.swing.JTextField();
@@ -119,17 +119,6 @@ public class ViewVendas extends javax.swing.JFrame {
         jLabel1.setText("Código Cli:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 22, -1, -1));
 
-        jcbNomeCliente.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-                jcbNomeClientePopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-        });
-        jPanel1.add(jcbNomeCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 42, 461, -1));
-
         jLabel2.setText("Nome do Cliente:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 22, -1, -1));
 
@@ -147,19 +136,8 @@ public class ViewVendas extends javax.swing.JFrame {
                 jtfCodigoProdutoFocusLost(evt);
             }
         });
-        jPanel1.add(jtfCodigoProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 103, 75, -1));
-
-        jcbNomeProduto.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-                jcbNomeProdutoPopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-        });
-        jPanel1.add(jcbNomeProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 103, 390, -1));
-        jPanel1.add(jtfQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(503, 103, 90, -1));
+        jPanel1.add(jtfCodigoProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 75, -1));
+        jPanel1.add(jtfQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 90, -1));
 
         jLabel5.setText("Quantidade:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(503, 80, -1, -1));
@@ -209,6 +187,7 @@ public class ViewVendas extends javax.swing.JFrame {
 
         jbSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/check.png"))); // NOI18N
         jbSalvar.setText("Salvar");
+        jbSalvar.setEnabled(false);
         jbSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbSalvarActionPerformed(evt);
@@ -264,6 +243,30 @@ public class ViewVendas extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbRemover, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, 102, -1));
+
+        jcbNomeProduto.setAutocompletar(true);
+        jcbNomeProduto.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jcbNomeProdutoPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        jPanel1.add(jcbNomeProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 390, -1));
+
+        jcbNomeCliente.setAutocompletar(true);
+        jcbNomeCliente.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jcbNomeClientePopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        jPanel1.add(jcbNomeCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 42, 460, -1));
 
         jTabbedPane1.addTab("Cadastro", jPanel1);
 
@@ -380,20 +383,6 @@ public class ViewVendas extends javax.swing.JFrame {
         jcbNomeCliente.setSelectedItem(modelCliente.getCliNome());
     }//GEN-LAST:event_jtfCodigoClienteFocusLost
 
-    private void jcbNomeClientePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jcbNomeClientePopupMenuWillBecomeInvisible
-        // TODO add your handling code here:
-        if (jcbNomeCliente.isPopupVisible()) {
-            preencherCodigoClientePeloCombobox();
-        }
-    }//GEN-LAST:event_jcbNomeClientePopupMenuWillBecomeInvisible
-
-    private void jcbNomeProdutoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jcbNomeProdutoPopupMenuWillBecomeInvisible
-        // TODO add your handling code here:
-        if (jcbNomeProduto.isPopupVisible()) {
-            preencherCodigoProdutoPeloCombobox();
-        }
-    }//GEN-LAST:event_jcbNomeProdutoPopupMenuWillBecomeInvisible
-
     private void jtfCodigoProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoFocusLost
         // TODO add your handling code here:
         modelProdutos = controllerProdutos.retornarProdutoController(Integer.parseInt(jtfCodigoProduto.getText()));
@@ -438,7 +427,8 @@ public class ViewVendas extends javax.swing.JFrame {
 
     private void jbNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNovoActionPerformed
         // TODO add your handling code here:
-        alterarSalvar = "novo";
+        jbSalvar.setEnabled(true);
+        alterarSalvar = "salvar";
         limparFormulario();
     }//GEN-LAST:event_jbNovoActionPerformed
 
@@ -498,7 +488,7 @@ public class ViewVendas extends javax.swing.JFrame {
             if(controllerVendasProdutos.salvarVendasProdutosController(listaModelVendasProdutos)){
                 //alterar o estoque de produtos
                 controllerProdutos.alterarEstoqueProdutoController(listaModelProdutos);
-                JOptionPane.showMessageDialog(this, "Produtos da venda salvos com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
+                //JOptionPane.showMessageDialog(this, "Produtos da venda salvos com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
                 carregarVendas();
                 limparFormulario();
             }else{
@@ -523,7 +513,7 @@ public class ViewVendas extends javax.swing.JFrame {
 
             if(controllerProdutos.alterarEstoqueProdutoController(listaModelProdutos)){
                 if(controllerVendasProdutos.excluirVendasProdutosController(codigoVenda)){
-                    JOptionPane.showMessageDialog(this, "Venda excluida com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
+                    //JOptionPane.showMessageDialog(this, "Venda excluida com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
                     this.carregarVendas();
                 }else{
                     JOptionPane.showMessageDialog(this, "Erro ao excluir a venda!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -560,18 +550,19 @@ public class ViewVendas extends javax.swing.JFrame {
             }
             //Salvar os produtos da venda
             if(controllerVendasProdutos.salvarVendasProdutosController(listaModelVendasProdutos)){
-                JOptionPane.showMessageDialog(this, "Produtos da venda salvos com sucesso!", "Erro", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(this, "Produtos da venda salvos com sucesso!", "Erro", JOptionPane.ERROR_MESSAGE);
                 carregarVendas();
                 limparFormulario();
             }else{
                 JOptionPane.showMessageDialog(this, "Erro ao salvar os produtos!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+        jbSalvar.setEnabled(false);
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
         // TODO add your handling code here:
+        jbSalvar.setEnabled(true);
         alterarSalvar = "alterar";
         int linhaSelecionada = jtVendas.getSelectedRow();
         int codigoVenda = (int) jtVendas.getValueAt(linhaSelecionada, 0);
@@ -630,7 +621,23 @@ public class ViewVendas extends javax.swing.JFrame {
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         // TODO add your handling code here:
+        jbSalvar.setEnabled(false);
+        limparFormulario();
     }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void jcbNomeProdutoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jcbNomeProdutoPopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        if (jcbNomeProduto.isPopupVisible()) {
+            preencherCodigoProdutoPeloCombobox();
+        }
+    }//GEN-LAST:event_jcbNomeProdutoPopupMenuWillBecomeInvisible
+
+    private void jcbNomeClientePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jcbNomeClientePopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        if (jcbNomeCliente.isPopupVisible()) {
+            preencherCodigoClientePeloCombobox();
+        }
+    }//GEN-LAST:event_jcbNomeClientePopupMenuWillBecomeInvisible
 
     /**
      * @param args the command line arguments
