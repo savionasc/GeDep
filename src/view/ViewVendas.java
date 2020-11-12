@@ -481,7 +481,7 @@ public class ViewVendas extends javax.swing.JFrame {
                 modelProdutos.setProEstoque(controllerProdutos.retornarProdutoController(codigoProduto).getProEstoque()
                                 - Integer.parseInt(jtProdutosVenda.getValueAt(i, 2).toString()));
                 listaModelVendasProdutos.add(modelVendasProdutos);
-                listaModelProdutos.add(modelProdutos); 
+                listaModelProdutos.add(modelProdutos);
             }
 
             //salvar os produtos da venda

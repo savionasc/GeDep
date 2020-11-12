@@ -7,6 +7,7 @@ package view;
 
 import controller.ControllerUsuario;
 import javax.swing.JOptionPane;
+import model.ModelSessaoUsuario;
 import model.ModelUsuario;
 
 /**
@@ -16,6 +17,7 @@ import model.ModelUsuario;
 public class ViewLogin extends javax.swing.JFrame {
     ControllerUsuario controllerUsuario = new ControllerUsuario();
     ModelUsuario modelUsuario = new ModelUsuario();
+    ModelSessaoUsuario modelSessaoUsuario = new ModelSessaoUsuario();
 
     /**
      * Creates new form ViewLogin
@@ -146,7 +148,13 @@ public class ViewLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         modelUsuario.setUsuLogin(jtfLogin.getText());
         modelUsuario.setUsuSenha(String.valueOf(jtfSenha.getPassword()));
+        
+        
         if(controllerUsuario.getValidarUsuarioController(modelUsuario)){
+            modelUsuario = controllerUsuario.getUsuarioController(jtfLogin.getText());
+            modelSessaoUsuario.codigo = modelUsuario.getIdUsuario();
+            modelSessaoUsuario.nome = modelUsuario.getUsuNome();
+            modelSessaoUsuario.login = modelUsuario.getUsuLogin();
             new ViewPrincipal().setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, "Usuário ou senha inválida.", "Aviso", JOptionPane.WARNING_MESSAGE);
