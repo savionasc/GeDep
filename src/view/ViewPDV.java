@@ -36,6 +36,7 @@ public class ViewPDV extends javax.swing.JFrame {
     ControllerVendasProdutos controllerVendasProdutos = new ControllerVendasProdutos();
     ModelSessaoUsuario modelSessaoUsuario = new ModelSessaoUsuario();
     int quantidade;
+    private ViewPagamentoPDV viewPagamentoPDV;
             
     /**
      * Creates new form ViewPDV
@@ -45,6 +46,7 @@ public class ViewPDV extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         quantidade = 1;
         setarOperador();
+        this.viewPagamentoPDV = new ViewPagamentoPDV(this, true);
     }
 
     /**
@@ -78,7 +80,7 @@ public class ViewPDV extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtProdutos = new javax.swing.JTable();
-        jtfCodigoProduto = new javax.swing.JTextField();
+        jtfCodigoProduto = new javax.swing.JFormattedTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -269,6 +271,7 @@ public class ViewPDV extends javax.swing.JFrame {
             jtProdutos.getColumnModel().getColumn(5).setPreferredWidth(40);
         }
 
+        jtfCodigoProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jtfCodigoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfCodigoProdutoKeyReleased(evt);
@@ -279,20 +282,20 @@ public class ViewPDV extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jtfCodigoProduto)
                 .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jtfCodigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(19, 19, 19))
         );
 
         jMenu1.setText("Arquivo");
@@ -370,7 +373,8 @@ public class ViewPDV extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -385,6 +389,50 @@ public class ViewPDV extends javax.swing.JFrame {
 
     private void jmiVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVendaActionPerformed
         // TODO add your handling code here:
+        viewPagamentoPDV.setValorTotal(Float.parseFloat(jtfValorTotal.getText()));
+        viewPagamentoPDV.setTextFildValorTotal();
+        viewPagamentoPDV.setVisible(true);
+        
+        System.out.println(viewPagamentoPDV.getValorTotal());
+        System.out.println(viewPagamentoPDV.getDesconto());
+        System.out.println(viewPagamentoPDV.getFormaPagamento());
+        System.out.println(viewPagamentoPDV.getTroco());
+        System.out.println(viewPagamentoPDV.getValorRecebido());
+        
+        //salvarVenda();
+    }//GEN-LAST:event_jmiVendaActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jmiSairActionPerformed
+
+    private void jmiExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExcluirActionPerformed
+        // TODO add your handling code here:
+        int quantLinha = jtProdutos.getRowCount();
+        if(quantLinha < 1){
+            JOptionPane.showMessageDialog(this, "Não existe itens para excluir!");
+        }else{        
+            DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
+            int linha = Integer.parseInt(JOptionPane.showInputDialog("Informe o item que deseja excluir"));
+            modelo.removeRow(linha-1);
+            jtfValorTotal.setText(somaValorTotal() + "");
+
+            for (int i = 0; i < jtProdutos.getRowCount(); i++) {
+                modelo.setValueAt(i+1, i, 0);
+            }
+        }
+    }//GEN-LAST:event_jmiExcluirActionPerformed
+
+    private void jtfCodigoProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoKeyReleased
+        // TODO add your handling code here:
+        pegarConteudo(evt);
+    }//GEN-LAST:event_jtfCodigoProdutoKeyReleased
+    private void salvarVenda(){
         int codigoProduto = 0, codigoVenda = 0;
         modelVendas = new ModelVendas();
         modelVendas.setCliente(1);
@@ -429,53 +477,28 @@ public class ViewPDV extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(this, "Erro ao salvar os produtos da venda!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
-    }//GEN-LAST:event_jmiVendaActionPerformed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
-
-    private void jtfCodigoProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoKeyReleased
-        // TODO add your handling code here:
-        pegarConteudo(evt);
-    }//GEN-LAST:event_jtfCodigoProdutoKeyReleased
-
-    private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jmiSairActionPerformed
-
-    private void jmiExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExcluirActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
-        int linha = Integer.parseInt(JOptionPane.showInputDialog("Informe o item que deseja excluir"));
-        modelo.removeRow(linha-1);
-        jtfValorTotal.setText(somaValorTotal() + "");
-        
-        for (int i = 0; i < jtProdutos.getRowCount(); i++) {
-            modelo.setValueAt(i+1, i, 0);
-        }
-    }//GEN-LAST:event_jmiExcluirActionPerformed
-
+    }
     
     private void pegarConteudo(java.awt.event.KeyEvent e){
         DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
         if(e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
-            modelProdutos = controllerProdutos.retornarProdutoController(Integer.parseInt(jtfCodigoProduto.getText()));
+            try {
+                modelProdutos = controllerProdutos.retornarProdutoController(Integer.parseInt(jtfCodigoProduto.getText()));
             
-            modelo.addRow(new Object[]{
-                modelo.getRowCount()+1,
-                modelProdutos.getIdProduto(),
-                modelProdutos.getProNome(),
-                quantidade,
-                modelProdutos.getProValor(),
-                modelProdutos.getProValor() * quantidade
-            });
-            jtfValorTotal.setText(somaValorTotal()+"");
-            jtfCodigoProduto.setText("");
-            quantidade = 1;
+                modelo.addRow(new Object[]{
+                    modelo.getRowCount()+1,
+                    modelProdutos.getIdProduto(),
+                    modelProdutos.getProNome(),
+                    quantidade,
+                    modelProdutos.getProValor(),
+                    modelProdutos.getProValor() * quantidade
+                });
+                jtfValorTotal.setText(somaValorTotal()+"");
+                jtfCodigoProduto.setText("");
+                quantidade = 1;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Você deve informar apenas números nesse campo", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
     
@@ -559,7 +582,7 @@ public class ViewPDV extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiSair;
     private javax.swing.JMenuItem jmiVenda;
     private javax.swing.JTable jtProdutos;
-    private javax.swing.JTextField jtfCodigoProduto;
+    private javax.swing.JFormattedTextField jtfCodigoProduto;
     private javax.swing.JTextField jtfValorTotal;
     // End of variables declaration//GEN-END:variables
 }

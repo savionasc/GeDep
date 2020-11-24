@@ -5,11 +5,7 @@
         <group>
             <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/view/ViewPDV.java</file>
             <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/view/ViewPrincipal.java</file>
-            <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/view/ViewLogin.java</file>
-            <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/controller/ControllerUsuario.java</file>
-            <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/model/ModelSessaoUsuario.java</file>
-            <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/view/ViewVendas.java</file>
-            <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/DAO/DAOUsuario.java</file>
+            <file>file:/C:/Users/Sávio/Documents/NetBeansProjects/GeDep/src/view/ViewPagamentoPDV.java</file>
         </group>
     </open-files>
 </project-private>
