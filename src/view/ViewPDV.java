@@ -74,6 +74,7 @@ public class ViewPDV extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtProdutos = new javax.swing.JTable();
@@ -82,6 +83,7 @@ public class ViewPDV extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jmiExcluir = new javax.swing.JMenuItem();
         jmiAddQuantidade = new javax.swing.JMenuItem();
         jmiVenda = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -164,6 +166,8 @@ public class ViewPDV extends javax.swing.JFrame {
 
         jLabel12.setText("F8 Sair");
 
+        jLabel14.setText("F2 Excluir");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -189,8 +193,12 @@ public class ViewPDV extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addComponent(jLabel8)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 37, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,7 +209,9 @@ public class ViewPDV extends javax.swing.JFrame {
                 .addComponent(jtfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel14)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
@@ -294,6 +304,15 @@ public class ViewPDV extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Comandos");
+
+        jmiExcluir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        jmiExcluir.setText("Excluir F2");
+        jmiExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiExcluirActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmiExcluir);
 
         jmiAddQuantidade.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         jmiAddQuantidade.setText("Quantidade F3");
@@ -428,6 +447,18 @@ public class ViewPDV extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jmiSairActionPerformed
 
+    private void jmiExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExcluirActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
+        int linha = Integer.parseInt(JOptionPane.showInputDialog("Informe o item que deseja excluir"));
+        modelo.removeRow(linha-1);
+        jtfValorTotal.setText(somaValorTotal() + "");
+        
+        for (int i = 0; i < jtProdutos.getRowCount(); i++) {
+            modelo.setValueAt(i+1, i, 0);
+        }
+    }//GEN-LAST:event_jmiExcluirActionPerformed
+
     
     private void pegarConteudo(java.awt.event.KeyEvent e){
         DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
@@ -503,6 +534,7 @@ public class ViewPDV extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -523,6 +555,7 @@ public class ViewPDV extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlOperador;
     private javax.swing.JMenuItem jmiAddQuantidade;
+    private javax.swing.JMenuItem jmiExcluir;
     private javax.swing.JMenuItem jmiSair;
     private javax.swing.JMenuItem jmiVenda;
     private javax.swing.JTable jtProdutos;
