@@ -6,7 +6,11 @@
 package view;
 
 import controller.ControllerUsuario;
+import java.awt.Color;
 import javax.swing.JOptionPane;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import model.ModelSessaoUsuario;
 import model.ModelUsuario;
 
@@ -191,6 +195,29 @@ public class ViewLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                //começa o look aqui
+                LookAndFeel lf = UIManager.getLookAndFeel();
+                
+                try{
+                    for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()){
+                        if("Nimbus".equals(info.getClassName())){
+                            UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                }catch(UnsupportedLookAndFeelException exc){
+                }catch(ClassNotFoundException exc){
+                }catch(InstantiationException exc){
+                }catch(IllegalAccessException exc){
+                }
+
+                UIManager.put("nimbusBase", new Color(80, 100, 242));
+
+                UIManager.put("nimbusBlueGrey", new Color(190, 189, 170));
+
+                UIManager.put("control", new Color(242, 242, 242));
+                
+                //Termina o look aqui
                 new ViewLogin().setVisible(true);
             }
         });

@@ -21,6 +21,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     private float valorRecebido;
     private float troco;
     private String formaPagamento;
+    private boolean pago;
     
     /**
      * Creates new form ViewPagamentoPDV
@@ -30,6 +31,8 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         listaFormaPagamento();
+        this.setPago(false);
+        calcularPagamento();
     }
 
     /**
@@ -46,7 +49,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jlValorTotal = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbOK = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jtfSubtotal = new javax.swing.JFormattedTextField();
@@ -65,7 +68,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Valor Total a Pagar", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
 
         jlValorTotal.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jlValorTotal.setText("10");
+        jlValorTotal.setText("0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -74,7 +77,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlValorTotal)
-                .addGap(264, 264, 264))
+                .addGap(275, 275, 275))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,11 +90,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("Troco:");
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbOK.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jbOK.setText("OK");
+        jbOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbOKActionPerformed(evt);
             }
         });
 
@@ -104,6 +107,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jtfSubtotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jtfDesconto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtfDescontoFocusLost(evt);
+            }
+        });
 
         jcbPagamento.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jcbPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -115,6 +123,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jLabel3.setText("Desconto:");
 
         jtfValorRecebido.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfValorRecebido.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtfValorRecebidoFocusLost(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Valor Recebido:");
@@ -131,11 +144,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfValorRecebido, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jcbPagamento, javax.swing.GroupLayout.Alignment.LEADING, 0, 381, Short.MAX_VALUE)
+                    .addComponent(jtfDesconto, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfValorRecebido, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfSubtotal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -171,7 +184,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jtfTroco, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbOK, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -185,7 +198,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfTroco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbOK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
         );
 
@@ -203,17 +216,60 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbOKActionPerformed
         // TODO add your handling code here:
         this.desconto = Float.parseFloat(this.jtfDesconto.getText());
         this.valorRecebido = Float.parseFloat(this.jtfValorRecebido.getText());
         this.troco = Float.parseFloat(this.jtfTroco.getText());
         this.valorTotal = Float.parseFloat(this.jlValorTotal.getText());
         this.formaPagamento = jcbPagamento.getSelectedItem().toString();
+        this.setPago(true);
         dispose();
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbOKActionPerformed
 
+    private void jtfDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfDescontoFocusLost
+        // TODO add your handling code here:
+        calcularPagamento();
+    }//GEN-LAST:event_jtfDescontoFocusLost
+
+    private void jtfValorRecebidoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfValorRecebidoFocusLost
+        // TODO add your handling code here:
+        calcularPagamento();
+    }//GEN-LAST:event_jtfValorRecebidoFocusLost
+
+    //calcula o valor total a pagar e troco
+    private void calcularPagamento(){
+        float subTotal, desconto, recebido, pagar, troco;
+        
+        try{
+            subTotal = Float.parseFloat(jtfSubtotal.getText());
+        }catch(Exception e){
+            subTotal = 0;
+        }
+        
+        try{
+            desconto = Float.parseFloat(jtfDesconto.getText());
+        }catch(Exception e){
+            desconto = 0;
+        }
+        
+        try{
+            recebido = Float.parseFloat(jtfValorRecebido.getText());
+        }catch(Exception e){
+            recebido = 0;
+        }
+
+        
+        //calcular valor a pagar
+        pagar = subTotal - desconto;
+        jlValorTotal.setText(pagar+"");
+        
+        //calcular troco
+        troco = recebido - pagar;
+        jtfTroco.setText(troco+"");
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -268,7 +324,6 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -277,6 +332,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton jbOK;
     private javax.swing.JComboBox<String> jcbPagamento;
     private javax.swing.JLabel jlValorTotal;
     private javax.swing.JFormattedTextField jtfDesconto;
@@ -357,5 +413,19 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
      */
     public void setFormaPagamento(String formaPagamento) {
         this.formaPagamento = formaPagamento;
+    }
+
+    /**
+     * @return the pago
+     */
+    public boolean isPago() {
+        return pago;
+    }
+
+    /**
+     * @param pago the pago to set
+     */
+    public void setPago(boolean pago) {
+        this.pago = pago;
     }
 }
