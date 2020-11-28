@@ -17,6 +17,7 @@ import model.ModelProdutos;
 import model.ModelSessaoUsuario;
 import model.ModelVendas;
 import model.ModelVendasProdutos;
+import util.BLMascaras;
 import utils.BLDatas;
 
 /**
@@ -37,6 +38,7 @@ public class ViewPDV extends javax.swing.JFrame {
     ModelSessaoUsuario modelSessaoUsuario = new ModelSessaoUsuario();
     int quantidade;
     private ViewPagamentoPDV viewPagamentoPDV;
+    BLMascaras bLMascaras = new BLMascaras();
             
     /**
      * Creates new form ViewPDV
@@ -47,6 +49,7 @@ public class ViewPDV extends javax.swing.JFrame {
         quantidade = 1;
         setarOperador();
         this.viewPagamentoPDV = new ViewPagamentoPDV(this, true);
+        limparTela();
     }
 
     /**
@@ -67,7 +70,7 @@ public class ViewPDV extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jlOperador = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jlStatus = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jtfValorBruto = new javax.swing.JTextField();
@@ -104,20 +107,20 @@ public class ViewPDV extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Caixa:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Operador:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText("Status");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Status:");
 
-        jLabel4.setText("jLabel4");
+        jLabel4.setText("Padrão");
 
         jlOperador.setText("Operador");
 
-        jLabel6.setText("jLabel6");
+        jlStatus.setText("Livre");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -126,15 +129,19 @@ public class ViewPDV extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6)
-                    .addComponent(jlOperador))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlOperador))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +157,7 @@ public class ViewPDV extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(jlStatus))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -177,27 +184,20 @@ public class ViewPDV extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfValorBruto)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jtfValorBruto))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel12))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel14)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(jLabel8)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
@@ -275,6 +275,9 @@ public class ViewPDV extends javax.swing.JFrame {
 
         jtfCodigoProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jtfCodigoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfCodigoProdutoKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfCodigoProdutoKeyReleased(evt);
             }
@@ -284,7 +287,7 @@ public class ViewPDV extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jtfCodigoProduto)
@@ -391,23 +394,20 @@ public class ViewPDV extends javax.swing.JFrame {
 
     private void jmiVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVendaActionPerformed
         // TODO add your handling code here:
-        viewPagamentoPDV.setValorTotal(Float.parseFloat(jtfValorBruto.getText()));
-        viewPagamentoPDV.setTextFildValorTotal();
-        viewPagamentoPDV.setVisible(true);
-        
-        
-        
-        System.out.println(viewPagamentoPDV.getValorTotal());
-        System.out.println(viewPagamentoPDV.getDesconto());
-        System.out.println(viewPagamentoPDV.getFormaPagamento());
-        System.out.println(viewPagamentoPDV.getTroco());
-        System.out.println(viewPagamentoPDV.getValorRecebido());
-        if(viewPagamentoPDV.isPago()){
-            salvarVenda();
-        }else{
-            JOptionPane.showMessageDialog(this, "Você cancelou o pagamento!");
-        }
+        try {
+            this.viewPagamentoPDV = new ViewPagamentoPDV(this, true);
+            viewPagamentoPDV.setValorTotal(Float.parseFloat(jtfValorBruto.getText()));
+            viewPagamentoPDV.setTextFildValorTotal();
+            viewPagamentoPDV.setVisible(true);
 
+            if(viewPagamentoPDV.isPago()){
+                salvarVenda();
+            }else{
+                JOptionPane.showMessageDialog(this, "Você cancelou o pagamento!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Você deve colocar incluir um produto!");
+        }
     }//GEN-LAST:event_jmiVendaActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -438,8 +438,12 @@ public class ViewPDV extends javax.swing.JFrame {
 
     private void jtfCodigoProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoKeyReleased
         // TODO add your handling code here:
-        pegarConteudo(evt);
     }//GEN-LAST:event_jtfCodigoProdutoKeyReleased
+
+    private void jtfCodigoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoKeyPressed
+        // TODO add your handling code here:
+        pegarConteudo(evt);
+    }//GEN-LAST:event_jtfCodigoProdutoKeyPressed
     private void salvarVenda(){
         int codigoProduto = 0, codigoVenda = 0;
         modelVendas = new ModelVendas();
@@ -452,7 +456,7 @@ public class ViewPDV extends javax.swing.JFrame {
         
         modelVendas.setVenValorBruto(Double.parseDouble(jtfValorBruto.getText()));
         modelVendas.setVenDesconto(viewPagamentoPDV.getDesconto());
-        modelVendas.setVenValorLiquido(viewPagamentoPDV.getValorTotal());
+        modelVendas.setVenValorLiquido(bLMascaras.arredondamentoComPontoDuasCasasDouble(Double.parseDouble(viewPagamentoPDV.getValorTotal()+"")));
 
         //Salvar venda
         codigoVenda = controllerVendas.salvarVendasController(modelVendas);
@@ -495,9 +499,11 @@ public class ViewPDV extends javax.swing.JFrame {
         jtfValorBruto.setText("");
         DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
         modelo.setNumRows(0);
+        jlStatus.setText("Livre");
     }
     
     private void pegarConteudo(java.awt.event.KeyEvent e){
+        jlStatus.setText("Vendendo");
         DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
         if(e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
             try {
@@ -579,7 +585,6 @@ public class ViewPDV extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -595,6 +600,7 @@ public class ViewPDV extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlOperador;
+    private javax.swing.JLabel jlStatus;
     private javax.swing.JMenuItem jmiAddQuantidade;
     private javax.swing.JMenuItem jmiExcluir;
     private javax.swing.JMenuItem jmiSair;

@@ -56,6 +56,18 @@ public class ViewLogin extends javax.swing.JFrame {
 
         jLabel2.setText("Senha:");
 
+        jtfLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfLoginActionPerformed(evt);
+            }
+        });
+
+        jtfSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfSenhaActionPerformed(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
         jLabel3.setText("Login no Sistema");
 
@@ -150,6 +162,20 @@ public class ViewLogin extends javax.swing.JFrame {
 
     private void jbEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEntrarActionPerformed
         // TODO add your handling code here:
+        entrar();
+    }//GEN-LAST:event_jbEntrarActionPerformed
+
+    private void jtfLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfLoginActionPerformed
+        // TODO add your handling code here:
+        jtfSenha.requestFocus();
+    }//GEN-LAST:event_jtfLoginActionPerformed
+
+    private void jtfSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfSenhaActionPerformed
+        // TODO add your handling code here:
+        entrar();
+    }//GEN-LAST:event_jtfSenhaActionPerformed
+
+    private void entrar(){
         modelUsuario.setUsuLogin(jtfLogin.getText());
         modelUsuario.setUsuSenha(String.valueOf(jtfSenha.getPassword()));
         
@@ -163,8 +189,7 @@ public class ViewLogin extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(this, "Usuário ou senha inválida.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_jbEntrarActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */

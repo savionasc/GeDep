@@ -8,6 +8,7 @@ package view;
 import controller.ControllerFormaPagamento;
 import java.util.ArrayList;
 import model.ModelFormaPagamento;
+import util.BLMascaras;
 
 /**
  *
@@ -22,6 +23,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     private float troco;
     private String formaPagamento;
     private boolean pago;
+    private BLMascaras bl = new BLMascaras();
     
     /**
      * Creates new form ViewPagamentoPDV
@@ -32,7 +34,9 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         listaFormaPagamento();
         this.setPago(false);
+        
         calcularPagamento();
+        jcbPagamento.requestFocus();
     }
 
     /**
@@ -112,9 +116,19 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
                 jtfDescontoFocusLost(evt);
             }
         });
+        jtfDesconto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfDescontoActionPerformed(evt);
+            }
+        });
 
         jcbPagamento.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jcbPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbPagamentoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Pagamento:");
@@ -126,6 +140,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jtfValorRecebido.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfValorRecebidoFocusLost(evt);
+            }
+        });
+        jtfValorRecebido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfValorRecebidoActionPerformed(evt);
             }
         });
 
@@ -217,7 +236,41 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbOKActionPerformed
+        // finaliza o pagamento
+        finalizarPagamento();
+        
+    }//GEN-LAST:event_jbOKActionPerformed
+
+    private void jtfDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfDescontoFocusLost
         // TODO add your handling code here:
+        jtfDesconto.setText(bl.converterVirgulaParaPonto(jtfDesconto.getText()));
+        calcularPagamento();
+    }//GEN-LAST:event_jtfDescontoFocusLost
+
+    private void jtfValorRecebidoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfValorRecebidoFocusLost
+        // TODO add your handling code here:
+        jtfValorRecebido.setText(bl.converterVirgulaParaPonto(jtfValorRecebido.getText()));
+        calcularPagamento();
+    }//GEN-LAST:event_jtfValorRecebidoFocusLost
+
+    private void jcbPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbPagamentoActionPerformed
+        // TODO add your handling code here:
+        jtfDesconto.requestFocus();
+    }//GEN-LAST:event_jcbPagamentoActionPerformed
+
+    private void jtfDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfDescontoActionPerformed
+        // TODO add your handling code here:
+        jtfValorRecebido.requestFocus();
+    }//GEN-LAST:event_jtfDescontoActionPerformed
+
+    private void jtfValorRecebidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfValorRecebidoActionPerformed
+        // TODO add your handling code here:
+        finalizarPagamento();
+    }//GEN-LAST:event_jtfValorRecebidoActionPerformed
+
+    
+    
+    private void finalizarPagamento(){
         this.desconto = Float.parseFloat(this.jtfDesconto.getText());
         this.valorRecebido = Float.parseFloat(this.jtfValorRecebido.getText());
         this.troco = Float.parseFloat(this.jtfTroco.getText());
@@ -225,19 +278,8 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         this.formaPagamento = jcbPagamento.getSelectedItem().toString();
         this.setPago(true);
         dispose();
-        
-    }//GEN-LAST:event_jbOKActionPerformed
-
-    private void jtfDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfDescontoFocusLost
-        // TODO add your handling code here:
-        calcularPagamento();
-    }//GEN-LAST:event_jtfDescontoFocusLost
-
-    private void jtfValorRecebidoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfValorRecebidoFocusLost
-        // TODO add your handling code here:
-        calcularPagamento();
-    }//GEN-LAST:event_jtfValorRecebidoFocusLost
-
+    }
+    
     //calcula o valor total a pagar e troco
     private void calcularPagamento(){
         float subTotal, desconto, recebido, pagar, troco;
@@ -252,22 +294,25 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
             desconto = Float.parseFloat(jtfDesconto.getText());
         }catch(Exception e){
             desconto = 0;
+            jtfDesconto.setText("0");
         }
         
         try{
             recebido = Float.parseFloat(jtfValorRecebido.getText());
         }catch(Exception e){
             recebido = 0;
+            jtfValorRecebido.setText("0");
         }
 
         
         //calcular valor a pagar
         pagar = subTotal - desconto;
-        jlValorTotal.setText(pagar+"");
+        jlValorTotal.setText(bl.arredondamentoComPontoDuasCasasString(pagar)+"");
         
         //calcular troco
         troco = recebido - pagar;
-        jtfTroco.setText(troco+"");
+        
+        jtfTroco.setText(bl.arredondamentoComPontoDuasCasasString(troco)+"");
     }
     
     /**
