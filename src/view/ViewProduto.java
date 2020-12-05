@@ -84,6 +84,12 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jLabel5.setText("Nome:");
 
+        jtfNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtfNomeFocusLost(evt);
+            }
+        });
+
         jtProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -344,6 +350,11 @@ public class ViewProduto extends javax.swing.JFrame {
         classificador.setRowFilter(RowFilter.regexFilter(texto, 1));
     }//GEN-LAST:event_jbPesquisarActionPerformed
 
+    private void jtfNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfNomeFocusLost
+        // TODO add your handling code here:
+        this.jtfNome.setText(this.jtfNome.getText().toUpperCase());
+    }//GEN-LAST:event_jtfNomeFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -381,19 +392,23 @@ public class ViewProduto extends javax.swing.JFrame {
     
     private void salvarProduto(){
         // Salva um novo produto no banco
-        modelProdutos.setProNome(jtfNome.getText());
-        modelProdutos.setProEstoque(Integer.parseInt(jtfEstoque.getText()));
-        modelProdutos.setProValor(formatador.converterVirgulaParaPontoReturnFloat(jtfValor.getText()));
-        if (controllerProdutos.salvarProdutoController(modelProdutos) > 0){
-            JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.carregarProdutos();
-            this.limparCampos();
-            if(!jcbVariosProdutos.isSelected()){
-                this.habilitarDesabilitarCampos(false);
+        try{
+            modelProdutos.setProNome(jtfNome.getText());
+            modelProdutos.setProEstoque(Integer.parseInt(jtfEstoque.getText()));
+            modelProdutos.setProValor(formatador.converterVirgulaParaPontoReturnFloat(jtfValor.getText()));
+            if (controllerProdutos.salvarProdutoController(modelProdutos) > 0){
+                JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+                this.carregarProdutos();
+                this.limparCampos();
+                if(!jcbVariosProdutos.isSelected()){
+                    this.habilitarDesabilitarCampos(false);
+                }else{
+                    jtfNome.requestFocus();
+                }
             }else{
-                jtfNome.requestFocus();
+                JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
+        }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
