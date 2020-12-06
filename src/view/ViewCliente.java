@@ -6,8 +6,11 @@
 package view;
 
 import controller.ControllerCliente;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.ModelCliente;
 
@@ -21,6 +24,7 @@ public class ViewCliente extends javax.swing.JFrame {
     ModelCliente modelCliente = new ModelCliente();
     ArrayList<ModelCliente> listaModelClientes = new ArrayList<>();
     String salvarAlterar;
+    ArrayList<JComponent> campos = new ArrayList<>();
 
     /**
      * Creates new form ViewClient
@@ -31,6 +35,14 @@ public class ViewCliente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.habilitarDesabilitarCampos(false);
         this.limparCampos();
+        campos.add(jtfCodigo);
+        campos.add(jtfNome);
+        campos.add(jtfEndereco);
+        campos.add(jtfBairro);
+        campos.add(jtfCidade);
+        campos.add(jcbUF);
+        campos.add(jtfTelefone);
+        campos.add(jtfCEP);
     }
 
     /**
@@ -74,16 +86,50 @@ public class ViewCliente extends javax.swing.JFrame {
         jLabel1.setText("Código");
 
         jtfCodigo.setEnabled(false);
+        jtfCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoKeyReleased(evt);
+            }
+        });
 
         jLabel2.setText("Nome:");
+
+        jtfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfNomeKeyReleased(evt);
+            }
+        });
 
         jLabel3.setText("Endereço:");
 
         jLabel4.setText("Bairro:");
 
+        jtfBairro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfBairroKeyReleased(evt);
+            }
+        });
+
+        jtfEndereco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfEnderecoKeyReleased(evt);
+            }
+        });
+
         jLabel5.setText("Cidade:");
 
+        jtfCidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCidadeKeyReleased(evt);
+            }
+        });
+
         jcbUF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AC", "CE", "PA", "MG", "SP" }));
+        jcbUF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jcbUFKeyReleased(evt);
+            }
+        });
 
         jLabel6.setText("UF:");
 
@@ -165,12 +211,22 @@ public class ViewCliente extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jtfCEP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCEPKeyReleased(evt);
+            }
+        });
 
         try {
             jtfTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jtfTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfTelefoneKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -265,7 +321,6 @@ public class ViewCliente extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(31, 31, 31)))
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -376,6 +431,46 @@ public class ViewCliente extends javax.swing.JFrame {
         this.limparCampos();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
+    private void jtfCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyReleased
+        // TODO add your handling code here:
+        navegacao(0, evt);
+    }//GEN-LAST:event_jtfCodigoKeyReleased
+
+    private void jtfNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNomeKeyReleased
+        // TODO add your handling code here:
+        navegacao(1, evt);
+    }//GEN-LAST:event_jtfNomeKeyReleased
+
+    private void jtfEnderecoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfEnderecoKeyReleased
+        // TODO add your handling code here:
+        navegacao(2, evt);
+    }//GEN-LAST:event_jtfEnderecoKeyReleased
+
+    private void jtfBairroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBairroKeyReleased
+        // TODO add your handling code here:
+        navegacao(3, evt);
+    }//GEN-LAST:event_jtfBairroKeyReleased
+
+    private void jtfCidadeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCidadeKeyReleased
+        // TODO add your handling code here:
+        navegacao(4, evt);
+    }//GEN-LAST:event_jtfCidadeKeyReleased
+
+    private void jcbUFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcbUFKeyReleased
+        // TODO add your handling code here:
+        navegacao(5, evt);
+    }//GEN-LAST:event_jcbUFKeyReleased
+
+    private void jtfTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTelefoneKeyReleased
+        // TODO add your handling code here:
+        navegacao(6, evt);
+    }//GEN-LAST:event_jtfTelefoneKeyReleased
+
+    private void jtfCEPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCEPKeyReleased
+        // TODO add your handling code here:
+        navegacao(7, evt);
+    }//GEN-LAST:event_jtfCEPKeyReleased
+
     /**
      * habilitar e desabilitar os campos e botões do formulário
      * @param condicao 
@@ -455,6 +550,31 @@ public class ViewCliente extends javax.swing.JFrame {
                 new ViewCliente().setVisible(true);
             }
         });
+    }
+    
+    private void navegacao(int codCampo, KeyEvent evt) {
+        JComponent c = campos.get(codCampo);
+        //JOptionPane.showMessageDialog(null, c.getText());
+        if(codCampo != 5 && evt.getKeyCode() == KeyEvent.VK_DELETE){
+            ((JTextField) c).setText("");
+        }
+        
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+                JComponent campo = campos.get(codCampo-1);
+                if(campo.isEnabled())
+                    campos.get(codCampo-1).requestFocus();
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
+                JComponent campo = campos.get(codCampo+1);
+                if(campo.isEnabled())
+                    campos.get(codCampo+1).requestFocus();
+            }
+        }catch(Exception e){
+            campos.get(codCampo).requestFocus();
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

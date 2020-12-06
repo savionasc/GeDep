@@ -6,8 +6,10 @@
 package view;
 
 import controller.ControllerUsuario;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.ModelUsuario;
 
@@ -21,6 +23,7 @@ public class ViewUsuario extends javax.swing.JFrame {
     ModelUsuario modelUsuario = new ModelUsuario();
     ArrayList<ModelUsuario> listaModelUsuarios = new ArrayList<>();
     String alterarSalvar;
+    ArrayList<JTextField> campos = new ArrayList<>();
     
     /**
      * Creates new form ViewUsuario
@@ -29,6 +32,10 @@ public class ViewUsuario extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         carregarUsuario();
+        campos.add(jtfCodigo);
+        campos.add(jtfNome);
+        campos.add(jtfLogin);
+        campos.add(jtfSenha);
     }
     
     /**
@@ -97,6 +104,29 @@ public class ViewUsuario extends javax.swing.JFrame {
         setResizable(false);
 
         jtfCodigo.setEnabled(false);
+        jtfCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoKeyReleased(evt);
+            }
+        });
+
+        jtfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfNomeKeyReleased(evt);
+            }
+        });
+
+        jtfLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfLoginKeyReleased(evt);
+            }
+        });
+
+        jtfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfSenhaKeyReleased(evt);
+            }
+        });
 
         jLabel1.setText("Código");
 
@@ -329,6 +359,49 @@ public class ViewUsuario extends javax.swing.JFrame {
         habilitarDesabilitar(true);
     }//GEN-LAST:event_jbAlterarActionPerformed
 
+    private void jtfCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyReleased
+        // TODO add your handling code here:
+        navegacao(0, evt);
+    }//GEN-LAST:event_jtfCodigoKeyReleased
+
+    private void jtfNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNomeKeyReleased
+        // TODO add your handling code here:
+        navegacao(1, evt);
+    }//GEN-LAST:event_jtfNomeKeyReleased
+
+    private void jtfLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLoginKeyReleased
+        // TODO add your handling code here:
+        navegacao(2, evt);
+    }//GEN-LAST:event_jtfLoginKeyReleased
+
+    private void jtfSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSenhaKeyReleased
+        // TODO add your handling code here:
+        navegacao(3, evt);
+    }//GEN-LAST:event_jtfSenhaKeyReleased
+
+    private void navegacao(int codCampo, KeyEvent evt) {
+        JTextField c = campos.get(codCampo);
+        //JOptionPane.showMessageDialog(null, c.getText());
+        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+            c.setText("");
+        }
+        
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+                JTextField campo = campos.get(codCampo-1);
+                if(campo.isEnabled())
+                    campos.get(codCampo-1).requestFocus();
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
+                JTextField campo = campos.get(codCampo+1);
+                if(campo.isEnabled())
+                    campos.get(codCampo+1).requestFocus();
+            }
+        }catch(Exception e){
+            campos.get(codCampo).requestFocus();
+        }
+    }
     /**
      * @param args the command line arguments
      */

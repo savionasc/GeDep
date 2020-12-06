@@ -52,6 +52,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         uJPanelImagem1.setImagem(new java.io.File("C:\\Users\\Sávio\\Desktop\\fundo_login.png"));
 
+        jPanel1.setBackground(new java.awt.Color(153, 255, 153));
+
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton1.setText("Clientes");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

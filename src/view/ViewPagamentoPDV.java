@@ -6,7 +6,10 @@
 package view;
 
 import controller.ControllerFormaPagamento;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
 import model.ModelFormaPagamento;
 import util.BLMascaras;
 
@@ -24,6 +27,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     private String formaPagamento;
     private boolean pago;
     private BLMascaras bl = new BLMascaras();
+    ArrayList<JComponent> campos = new ArrayList<>();
     
     /**
      * Creates new form ViewPagamentoPDV
@@ -34,6 +38,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         listaFormaPagamento();
         this.setPago(false);
+        campos.add(jtfSubtotal);
+        campos.add(jcbPagamento);
+        campos.add(jtfDesconto);
+        campos.add(jtfValorRecebido);
+        campos.add(jtfTroco);
         
         calcularPagamento();
         jcbPagamento.requestFocus();
@@ -66,7 +75,14 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jtfTroco.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfTroco.setDisabledTextColor(new java.awt.Color(0, 255, 0));
+        jtfTroco.setEnabled(false);
+        jtfTroco.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jtfTroco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfTrocoKeyReleased(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(51, 255, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Valor Total a Pagar", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
@@ -109,6 +125,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
 
         jtfSubtotal.setEnabled(false);
         jtfSubtotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jtfSubtotal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfSubtotalKeyReleased(evt);
+            }
+        });
 
         jtfDesconto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jtfDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -121,12 +142,22 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
                 jtfDescontoActionPerformed(evt);
             }
         });
+        jtfDesconto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfDescontoKeyReleased(evt);
+            }
+        });
 
         jcbPagamento.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jcbPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcbPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbPagamentoActionPerformed(evt);
+            }
+        });
+        jcbPagamento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jcbPagamentoKeyReleased(evt);
             }
         });
 
@@ -145,6 +176,11 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jtfValorRecebido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfValorRecebidoActionPerformed(evt);
+            }
+        });
+        jtfValorRecebido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfValorRecebidoKeyReleased(evt);
             }
         });
 
@@ -268,7 +304,54 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         finalizarPagamento();
     }//GEN-LAST:event_jtfValorRecebidoActionPerformed
 
-    
+    private void jtfSubtotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSubtotalKeyReleased
+        // TODO add your handling code here:
+        navegacao(0, evt);
+    }//GEN-LAST:event_jtfSubtotalKeyReleased
+
+    private void jcbPagamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcbPagamentoKeyReleased
+        // TODO add your handling code here:
+        navegacao(1, evt);
+    }//GEN-LAST:event_jcbPagamentoKeyReleased
+
+    private void jtfDescontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescontoKeyReleased
+        // TODO add your handling code here:
+        navegacao(2, evt);
+    }//GEN-LAST:event_jtfDescontoKeyReleased
+
+    private void jtfValorRecebidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfValorRecebidoKeyReleased
+        // TODO add your handling code here:
+        navegacao(3, evt);
+    }//GEN-LAST:event_jtfValorRecebidoKeyReleased
+
+    private void jtfTrocoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTrocoKeyReleased
+        // TODO add your handling code here:
+        navegacao(4, evt);
+    }//GEN-LAST:event_jtfTrocoKeyReleased
+
+    private void navegacao(int codCampo, KeyEvent evt) {
+        JComponent c = campos.get(codCampo);
+        //JOptionPane.showMessageDialog(null, c.getText());
+        if(codCampo != 5 && evt.getKeyCode() == KeyEvent.VK_DELETE){
+            ((JTextField) c).setText("");
+        }
+        
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+                JComponent campo = campos.get(codCampo-1);
+                if(campo.isEnabled())
+                    campos.get(codCampo-1).requestFocus();
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
+                JComponent campo = campos.get(codCampo+1);
+                if(campo.isEnabled())
+                    campos.get(codCampo+1).requestFocus();
+            }
+        }catch(Exception e){
+            campos.get(codCampo).requestFocus();
+        }
+    }
     
     private void finalizarPagamento(){
         this.desconto = Float.parseFloat(this.jtfDesconto.getText());

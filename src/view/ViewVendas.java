@@ -11,8 +11,11 @@ import controller.ControllerProdutosVendasProdutos;
 import controller.ControllerVendas;
 import controller.ControllerVendasCliente;
 import controller.ControllerVendasProdutos;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.ModelCliente;
 import model.ModelProdutos;
@@ -46,6 +49,7 @@ public class ViewVendas extends javax.swing.JFrame {
     ModelProdutosVendasProdutos modelProdutosVendasProdutos = new ModelProdutosVendasProdutos();
     ArrayList<ModelProdutosVendasProdutos> listaModelProdutosVendasProdutos = new ArrayList<>();
     String alterarSalvar = "salvar";
+    ArrayList<JComponent> campos = new ArrayList<>();
     
     /**
      * Creates new form ViewVendas
@@ -58,6 +62,13 @@ public class ViewVendas extends javax.swing.JFrame {
         carregarVendas();
         preencherCodigoClientePeloCombobox();
         preencherCodigoProdutoPeloCombobox();
+        campos.add(jtfCodigoCliente);
+        campos.add(jcbNomeCliente);
+        campos.add(jtfCodigoProduto);
+        campos.add(jcbNomeProduto);
+        campos.add(jtfQuantidade);
+        campos.add(jtfDesconto);
+        campos.add(jtfValorTotal);
     }
 
     /**
@@ -114,6 +125,11 @@ public class ViewVendas extends javax.swing.JFrame {
                 jtfCodigoClienteFocusLost(evt);
             }
         });
+        jtfCodigoCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoClienteKeyReleased(evt);
+            }
+        });
         jPanel1.add(jtfCodigoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 42, 75, -1));
 
         jLabel1.setText("Código Cli:");
@@ -122,7 +138,14 @@ public class ViewVendas extends javax.swing.JFrame {
         jLabel2.setText("Nome do Cliente:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 22, -1, -1));
 
+        jtfNumeroVenda.setEditable(false);
         jtfNumeroVenda.setBackground(new java.awt.Color(204, 255, 204));
+        jtfNumeroVenda.setEnabled(false);
+        jtfNumeroVenda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfNumeroVendaKeyReleased(evt);
+            }
+        });
         jPanel1.add(jtfNumeroVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(594, 42, 102, -1));
 
         jLabel3.setText("Número da venda:");
@@ -136,7 +159,18 @@ public class ViewVendas extends javax.swing.JFrame {
                 jtfCodigoProdutoFocusLost(evt);
             }
         });
+        jtfCodigoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoProdutoKeyReleased(evt);
+            }
+        });
         jPanel1.add(jtfCodigoProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 75, -1));
+
+        jtfQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfQuantidadeKeyReleased(evt);
+            }
+        });
         jPanel1.add(jtfQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 90, -1));
 
         jLabel5.setText("Quantidade:");
@@ -220,7 +254,18 @@ public class ViewVendas extends javax.swing.JFrame {
                 jtfDescontoActionPerformed(evt);
             }
         });
+        jtfDesconto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfDescontoKeyReleased(evt);
+            }
+        });
         jPanel1.add(jtfDesconto, new org.netbeans.lib.awtextra.AbsoluteConstraints(417, 531, 99, -1));
+
+        jtfValorTotal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfValorTotalKeyReleased(evt);
+            }
+        });
         jPanel1.add(jtfValorTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(534, 531, 100, -1));
 
         jLabel9.setText("Nome do Produto:");
@@ -254,6 +299,11 @@ public class ViewVendas extends javax.swing.JFrame {
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
         });
+        jcbNomeProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jcbNomeProdutoKeyReleased(evt);
+            }
+        });
         jPanel1.add(jcbNomeProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 390, -1));
 
         jcbNomeCliente.setAutocompletar(true);
@@ -266,14 +316,30 @@ public class ViewVendas extends javax.swing.JFrame {
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
         });
+        jcbNomeCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jcbNomeClienteKeyReleased(evt);
+            }
+        });
         jPanel1.add(jcbNomeCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(103, 42, 460, -1));
 
         jTabbedPane1.addTab("Cadastro", jPanel1);
 
         jLabel8.setText("Pesquisa:");
 
+        jtfPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfPesquisaKeyReleased(evt);
+            }
+        });
+
         jbPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/search.png"))); // NOI18N
         jbPesquisar.setText("Pesquisar");
+        jbPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPesquisarActionPerformed(evt);
+            }
+        });
 
         jtVendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -639,6 +705,54 @@ public class ViewVendas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jcbNomeClientePopupMenuWillBecomeInvisible
 
+    private void jtfCodigoClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoClienteKeyReleased
+        // TODO add your handling code here:
+        navegacao(0, evt);
+    }//GEN-LAST:event_jtfCodigoClienteKeyReleased
+
+    private void jcbNomeClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcbNomeClienteKeyReleased
+        // TODO add your handling code here:
+        navegacao(1, evt);
+    }//GEN-LAST:event_jcbNomeClienteKeyReleased
+
+    private void jtfCodigoProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoKeyReleased
+        // TODO add your handling code here:
+        navegacao(2, evt);
+    }//GEN-LAST:event_jtfCodigoProdutoKeyReleased
+
+    private void jcbNomeProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jcbNomeProdutoKeyReleased
+        // TODO add your handling code here:
+        navegacao(3, evt);
+    }//GEN-LAST:event_jcbNomeProdutoKeyReleased
+
+    private void jtfQuantidadeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfQuantidadeKeyReleased
+        // TODO add your handling code here:
+        navegacao(4, evt);
+    }//GEN-LAST:event_jtfQuantidadeKeyReleased
+
+    private void jtfDescontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescontoKeyReleased
+        // TODO add your handling code here:
+        navegacao(5, evt);
+    }//GEN-LAST:event_jtfDescontoKeyReleased
+
+    private void jtfValorTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfValorTotalKeyReleased
+        // TODO add your handling code here:
+        navegacao(6, evt);
+    }//GEN-LAST:event_jtfValorTotalKeyReleased
+
+    private void jtfNumeroVendaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNumeroVendaKeyReleased
+        // TODO add your handling code here:
+        navegacao(7, evt);
+    }//GEN-LAST:event_jtfNumeroVendaKeyReleased
+
+    private void jtfPesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPesquisaKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfPesquisaKeyReleased
+
+    private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbPesquisarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -672,6 +786,31 @@ public class ViewVendas extends javax.swing.JFrame {
                 new ViewVendas().setVisible(true);
             }
         });
+    }
+    
+    private void navegacao(int codCampo, KeyEvent evt) {
+        JComponent c = campos.get(codCampo);
+        //JOptionPane.showMessageDialog(null, c.getText());
+        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+            ((JTextField) c).setText("");
+        }
+        
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+                JComponent campo = campos.get(codCampo-1);
+                if(campo.isEnabled())
+                    campos.get(codCampo-1).requestFocus();
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
+                JComponent campo = campos.get(codCampo+1);
+                if(campo.isEnabled())
+                    campos.get(codCampo+1).requestFocus();
+            }
+        }catch(Exception e){
+            campos.get(codCampo).requestFocus();
+        }
+
     }
     
     private void preencherCodigoClientePeloCombobox(){

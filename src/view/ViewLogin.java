@@ -7,7 +7,10 @@ package view;
 
 import controller.ControllerUsuario;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -22,6 +25,7 @@ public class ViewLogin extends javax.swing.JFrame {
     ControllerUsuario controllerUsuario = new ControllerUsuario();
     ModelUsuario modelUsuario = new ModelUsuario();
     ModelSessaoUsuario modelSessaoUsuario = new ModelSessaoUsuario();
+    ArrayList<JTextField> campos = new ArrayList<>();
 
     /**
      * Creates new form ViewLogin
@@ -29,6 +33,8 @@ public class ViewLogin extends javax.swing.JFrame {
     public ViewLogin() {
         initComponents();
         setLocationRelativeTo(null);
+        campos.add(jtfLogin);
+        campos.add(jtfSenha);
     }
 
     /**
@@ -61,10 +67,20 @@ public class ViewLogin extends javax.swing.JFrame {
                 jtfLoginActionPerformed(evt);
             }
         });
+        jtfLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfLoginKeyReleased(evt);
+            }
+        });
 
         jtfSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfSenhaActionPerformed(evt);
+            }
+        });
+        jtfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfSenhaKeyReleased(evt);
             }
         });
 
@@ -175,6 +191,16 @@ public class ViewLogin extends javax.swing.JFrame {
         entrar();
     }//GEN-LAST:event_jtfSenhaActionPerformed
 
+    private void jtfLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfLoginKeyReleased
+        // TODO add your handling code here:
+        navegacao(0, evt);
+    }//GEN-LAST:event_jtfLoginKeyReleased
+
+    private void jtfSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfSenhaKeyReleased
+        // TODO add your handling code here:
+        navegacao(1, evt);
+    }//GEN-LAST:event_jtfSenhaKeyReleased
+
     private void entrar(){
         modelUsuario.setUsuLogin(jtfLogin.getText());
         modelUsuario.setUsuSenha(String.valueOf(jtfSenha.getPassword()));
@@ -246,6 +272,30 @@ public class ViewLogin extends javax.swing.JFrame {
                 new ViewLogin().setVisible(true);
             }
         });
+    }
+    
+    private void navegacao(int codCampo, KeyEvent evt) {
+        JTextField c = campos.get(codCampo);
+        //JOptionPane.showMessageDialog(null, c.getText());
+        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+            c.setText("");
+        }
+        
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+                JTextField campo = campos.get(codCampo-1);
+                if(campo.isEnabled())
+                    campos.get(codCampo-1).requestFocus();
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
+                JTextField campo = campos.get(codCampo+1);
+                if(campo.isEnabled())
+                    campos.get(codCampo+1).requestFocus();
+            }
+        }catch(Exception e){
+            campos.get(codCampo).requestFocus();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
