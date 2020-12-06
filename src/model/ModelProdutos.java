@@ -15,6 +15,7 @@ public class ModelProdutos {
     private String proNome;
     private Double proValor;
     private int proEstoque;
+    private String proCodBarra;
 
     /**
      * @return the idProduto
@@ -70,6 +71,20 @@ public class ModelProdutos {
      */
     public void setProEstoque(int proEstoque) {
         this.proEstoque = proEstoque;
+    }
+
+    /**
+     * @return the proCodBarra
+     */
+    public String getProCodBarra() {
+        return proCodBarra;
+    }
+
+    /**
+     * @param proCodBarra the proCodBarra to set
+     */
+    public void setProCodBarra(String proCodBarra) {
+        this.proCodBarra = proCodBarra;
     }
     
     
