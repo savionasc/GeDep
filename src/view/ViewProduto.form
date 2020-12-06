@@ -186,6 +186,9 @@
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfCodigoKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
@@ -205,6 +208,7 @@
         <Component class="javax.swing.JTextField" name="jtfNome">
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtfNomeFocusLost"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfNomeKeyReleased"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -261,6 +265,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfPesquisar">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfPesquisarKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbPesquisar">
           <Properties>
@@ -339,6 +346,9 @@
               <Format format="#0" subtype="-1" type="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfEstoqueKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="jtfValor">
           <Properties>
@@ -346,10 +356,14 @@
               <Format format="#,##0.00" subtype="-1" type="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfValorKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtfCodBarra">
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jtfCodBarraFocusLost"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfCodBarraKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">

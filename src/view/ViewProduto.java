@@ -14,6 +14,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelProdutos;
 import utils.Formatador;
+import java.awt.event.KeyEvent;
+import javax.swing.JTextField;
 
 /**
  *
@@ -26,6 +28,9 @@ public class ViewProduto extends javax.swing.JFrame {
     ModelProdutos modelProdutos = new ModelProdutos();
     Formatador formatador = new Formatador();
     String salvarAlterar;
+    ArrayList<JTextField> campos = new ArrayList<>();
+    
+    //Lista de codigo dos campos
     
     /**
      * Creates new form ViewProduto
@@ -35,6 +40,12 @@ public class ViewProduto extends javax.swing.JFrame {
         this.carregarProdutos();
         setLocationRelativeTo(null);
         this.habilitarDesabilitarCampos(false);
+        campos.add(jtfCodigo);
+        campos.add(jtfNome);
+        campos.add(jtfEstoque);
+        campos.add(jtfValor);
+        campos.add(jtfCodBarra);
+        campos.add(jtfPesquisar);
     }
 
     /**
@@ -79,6 +90,11 @@ public class ViewProduto extends javax.swing.JFrame {
         jLabel2.setText("Código:");
 
         jtfCodigo.setEnabled(false);
+        jtfCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodigoKeyReleased(evt);
+            }
+        });
 
         jLabel3.setText("Estoque:");
 
@@ -89,6 +105,11 @@ public class ViewProduto extends javax.swing.JFrame {
         jtfNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfNomeFocusLost(evt);
+            }
+        });
+        jtfNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfNomeKeyReleased(evt);
             }
         });
 
@@ -122,6 +143,12 @@ public class ViewProduto extends javax.swing.JFrame {
         }
 
         jLabel6.setText("Pesquisar:");
+
+        jtfPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfPesquisarKeyReleased(evt);
+            }
+        });
 
         jbPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/search.png"))); // NOI18N
         jbPesquisar.setText("Pesquisar");
@@ -174,12 +201,27 @@ public class ViewProduto extends javax.swing.JFrame {
         jcbVariosProdutos.setText("Vários produtos");
 
         jtfEstoque.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        jtfEstoque.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfEstoqueKeyReleased(evt);
+            }
+        });
 
         jtfValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        jtfValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfValorKeyReleased(evt);
+            }
+        });
 
         jtfCodBarra.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfCodBarraFocusLost(evt);
+            }
+        });
+        jtfCodBarra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfCodBarraKeyReleased(evt);
             }
         });
 
@@ -312,7 +354,7 @@ public class ViewProduto extends javax.swing.JFrame {
             this.salvarProduto();
         }else if(salvarAlterar.equals("alterar")){
             this.alterarProduto();
-        }
+        }        
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
@@ -333,6 +375,7 @@ public class ViewProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.habilitarDesabilitarCampos(true);
         salvarAlterar = "salvar";
+        jtfNome.requestFocus();
     }//GEN-LAST:event_jbNovoActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -378,6 +421,36 @@ public class ViewProduto extends javax.swing.JFrame {
     private void jtfCodBarraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfCodBarraFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfCodBarraFocusLost
+
+    private void jtfCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyReleased
+        // TODO add your handling code here:
+        navegacao(0, evt);
+    }//GEN-LAST:event_jtfCodigoKeyReleased
+
+    private void jtfNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNomeKeyReleased
+        // TODO add your handling code here:
+        navegacao(1, evt);
+    }//GEN-LAST:event_jtfNomeKeyReleased
+
+    private void jtfEstoqueKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfEstoqueKeyReleased
+        // TODO add your handling code here:
+        navegacao(2, evt);
+    }//GEN-LAST:event_jtfEstoqueKeyReleased
+
+    private void jtfValorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfValorKeyReleased
+        // TODO add your handling code here:
+        navegacao(3, evt);
+    }//GEN-LAST:event_jtfValorKeyReleased
+
+    private void jtfCodBarraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodBarraKeyReleased
+        // TODO add your handling code here:
+        navegacao(4, evt);
+    }//GEN-LAST:event_jtfCodBarraKeyReleased
+
+    private void jtfPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPesquisarKeyReleased
+        // TODO add your handling code here:
+        navegacao(5, evt);
+    }//GEN-LAST:event_jtfPesquisarKeyReleased
 
     /**
      * @param args the command line arguments
@@ -466,6 +539,7 @@ public class ViewProduto extends javax.swing.JFrame {
         jtfEstoque.setEnabled(condicao);
         jtfValor.setEnabled(condicao);
         jbSalvar.setEnabled(condicao);
+        jtfCodBarra.setEnabled(condicao);
     }
     
     /**
@@ -497,6 +571,37 @@ public class ViewProduto extends javax.swing.JFrame {
                 "R$ "+listaModelProdutos.get(i).getProValor()
             });
         }
+    }
+    
+    private void navegacao(int codCampo, KeyEvent evt) {
+        JTextField c = campos.get(codCampo);
+        //JOptionPane.showMessageDialog(null, c.getText());
+        if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+           if(codCampo == 2 || codCampo == 3){
+               c.setText("0");
+               campos.get(codCampo+1).requestFocus();
+               c.requestFocus();          
+           }else{
+               c.setText("");
+           }    
+        }
+        
+        try{
+            if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+                JTextField campo = campos.get(codCampo-1);
+                if(campo.isEnabled())
+                    campos.get(codCampo-1).requestFocus();
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
+                JTextField campo = campos.get(codCampo+1);
+                if(campo.isEnabled())
+                    campos.get(codCampo+1).requestFocus();
+            }
+        }catch(Exception e){
+            campos.get(codCampo).requestFocus();
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
