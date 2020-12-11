@@ -494,6 +494,7 @@ public class ViewProduto extends javax.swing.JFrame {
             modelProdutos.setProEstoque(Integer.parseInt(jtfEstoque.getText()));
             modelProdutos.setProValor(formatador.converterVirgulaParaPontoReturnFloat(jtfValor.getText()));
             modelProdutos.setProCodBarra(jtfCodBarra.getText());
+            modelProdutos.setProCodBarra(jtfCodBarra.getText());
             if (controllerProdutos.salvarProdutoController(modelProdutos) > 0){
                 JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
                 this.carregarProdutos();

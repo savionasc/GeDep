@@ -16,6 +16,11 @@ public class ModelProdutos {
     private Double proValor;
     private int proEstoque;
     private String proCodBarra;
+    private boolean ativo;
+
+    public ModelProdutos() {
+        ativo = true;
+    }
 
     /**
      * @return the idProduto
@@ -85,6 +90,20 @@ public class ModelProdutos {
      */
     public void setProCodBarra(String proCodBarra) {
         this.proCodBarra = proCodBarra;
+    }
+
+    /**
+     * @return the ativo
+     */
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    /**
+     * @param ativo the ativo to set
+     */
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
     
     

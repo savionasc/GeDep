@@ -90,13 +90,15 @@ public class DaoProdutos extends ConexaoMySql {
      */
     public ModelProdutos retornarProdutoDAO(int pIdProduto){
         ModelProdutos modelProdutos = new ModelProdutos();
+        modelProdutos.setAtivo(false);
         try {
             this.conectar();
             this.executarSQL("SELECT "
                     + "pk_id_produto,"
                     + "pro_nome,"
                     + "pro_valor,"
-                    + "pro_estoque "
+                    + "pro_estoque,"
+                    + "pro_cod_barra "
                     + "FROM tbl_produto WHERE pk_id_produto = '"+pIdProduto+"'");
             
             while (this.getResultSet().next()) {
@@ -104,6 +106,8 @@ public class DaoProdutos extends ConexaoMySql {
                 modelProdutos.setProNome(this.getResultSet().getString(2));
                 modelProdutos.setProValor(this.getResultSet().getDouble(3));
                 modelProdutos.setProEstoque(this.getResultSet().getInt(4));
+                modelProdutos.setProCodBarra(this.getResultSet().getString(5));
+                modelProdutos.setAtivo(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,19 +119,21 @@ public class DaoProdutos extends ConexaoMySql {
     }
     
     /**
-     * retorna um produto pelo codigo
+     * retorna um produto pelo nome do produto
      * @param pNomeProduto
      * @return modelProduto
      */
     public ModelProdutos retornarProdutoDAO(String pNomeProduto){
         ModelProdutos modelProdutos = new ModelProdutos();
+        modelProdutos.setAtivo(false);
         try {
             this.conectar();
             this.executarSQL("SELECT "
                     + "pk_id_produto,"
                     + "pro_nome,"
                     + "pro_valor,"
-                    + "pro_estoque "
+                    + "pro_estoque,"
+                    + "pro_cod_barra "
                     + "FROM tbl_produto WHERE pro_nome = '"+pNomeProduto+"'");
             
             while (this.getResultSet().next()) {
@@ -135,6 +141,43 @@ public class DaoProdutos extends ConexaoMySql {
                 modelProdutos.setProNome(this.getResultSet().getString(2));
                 modelProdutos.setProValor(this.getResultSet().getDouble(3));
                 modelProdutos.setProEstoque(this.getResultSet().getInt(4));
+                modelProdutos.setProCodBarra(this.getResultSet().getString(5));
+                modelProdutos.setAtivo(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.fecharConexao();
+        }
+        
+        return modelProdutos;
+    }
+    
+    /**
+     * retorna um produto pelo código de barras
+     * @param pCodigoBarras
+     * @return modelProduto
+     */
+    public ModelProdutos retornarProdutoCodigoBarrasDAO(String pCodigoBarras){
+        ModelProdutos modelProdutos = new ModelProdutos();
+        modelProdutos.setAtivo(false);
+        try {
+            this.conectar();
+            this.executarSQL("SELECT "
+                    + "pk_id_produto,"
+                    + "pro_nome,"
+                    + "pro_valor,"
+                    + "pro_estoque,"
+                    + "pro_cod_barra "
+                    + "FROM tbl_produto WHERE pro_cod_barra = '"+pCodigoBarras+"'");
+            
+            while (this.getResultSet().next()) {
+                modelProdutos.setIdProduto(this.getResultSet().getInt(1));
+                modelProdutos.setProNome(this.getResultSet().getString(2));
+                modelProdutos.setProValor(this.getResultSet().getDouble(3));
+                modelProdutos.setProEstoque(this.getResultSet().getInt(4));
+                modelProdutos.setProCodBarra(this.getResultSet().getString(5));
+                modelProdutos.setAtivo(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,6 +195,7 @@ public class DaoProdutos extends ConexaoMySql {
     public ArrayList<ModelProdutos> retornarListaProdutosDAO(){
         ArrayList<ModelProdutos> listaModelProdutos = new ArrayList<>();
         ModelProdutos modelProdutos = new ModelProdutos();
+        modelProdutos.setAtivo(false);
         try {
             this.conectar();
             this.executarSQL("SELECT "
@@ -167,6 +211,7 @@ public class DaoProdutos extends ConexaoMySql {
                 modelProdutos.setProNome(this.getResultSet().getString(2));
                 modelProdutos.setProValor(this.getResultSet().getDouble(3));
                 modelProdutos.setProEstoque(this.getResultSet().getInt(4));
+                modelProdutos.setAtivo(true);
                 listaModelProdutos.add(modelProdutos);
             }
         } catch (Exception e) {

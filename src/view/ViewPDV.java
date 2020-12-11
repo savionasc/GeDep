@@ -507,7 +507,12 @@ public class ViewPDV extends javax.swing.JFrame {
         if(e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
             try {
                 modelProdutos = controllerProdutos.retornarProdutoController(Integer.parseInt(jtfCodigoProduto.getText()));
-            
+                
+                if(!modelProdutos.isAtivo()){
+                    
+                    modelProdutos = controllerProdutos.retornarProdutoPorCodigoBarrasController(jtfCodigoProduto.getText());
+                }
+                
                 modelo.addRow(new Object[]{
                     modelo.getRowCount()+1,
                     modelProdutos.getIdProduto(),
@@ -519,8 +524,10 @@ public class ViewPDV extends javax.swing.JFrame {
                 jtfValorBruto.setText(somaValorTotal()+"");
                 jtfCodigoProduto.setText("");
                 quantidade = 1;
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Você deve informar apenas números nesse campo", "Erro", JOptionPane.ERROR_MESSAGE);
+            } catch(NullPointerException ex){
+                JOptionPane.showMessageDialog(this, "Produto não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);                
+            }catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Você deve informar apenas números nesse campo!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

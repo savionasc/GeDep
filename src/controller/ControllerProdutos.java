@@ -54,6 +54,15 @@ public class ControllerProdutos {
     }
     
     /**
+     * Retornar produto pelo codigo de barras
+     * @param pCodigoBarras
+     * @return ModelProdutos
+     */
+    public ModelProdutos retornarProdutoPorCodigoBarrasController(String pCodigoBarras){
+        return this.daoProdutos.retornarProdutoCodigoBarrasDAO(pCodigoBarras);
+    }
+    
+    /**
      * Retornar produto pelo codigo
      * @param pNomeProduto
      * @return ModelProdutos
