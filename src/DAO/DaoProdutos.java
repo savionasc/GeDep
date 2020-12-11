@@ -27,11 +27,13 @@ public class DaoProdutos extends ConexaoMySql {
                     "INSERT INTO tbl_produto ("
                     + "pro_nome,"
                     + "pro_valor,"
-                    + "pro_estoque"
+                    + "pro_estoque,"
+                    + "pro_cod_barra"
                     + ") VALUES ("
                     + "'" + pModelProdutos.getProNome() + "',"
                     + "'" + pModelProdutos.getProValor() + "',"
-                    + "'" + pModelProdutos.getProEstoque() + "')"
+                    + "'" + pModelProdutos.getProEstoque() + "',"
+                    + "'" + pModelProdutos.getProCodBarra() + "')"
             );
         } catch (Exception e) {
             e.printStackTrace();

@@ -64,6 +64,8 @@ public class ViewPDV extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
+        jlQuantidade = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -105,6 +107,12 @@ public class ViewPDV extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 51, 51));
         jLabel13.setText("GeDep");
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jlQuantidade.setText("1");
+        jPanel1.add(jlQuantidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, -1));
+
+        jLabel6.setText("Quantidade:");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -389,6 +397,7 @@ public class ViewPDV extends javax.swing.JFrame {
         // TODO add your handling code here:
         quantidade = Integer.parseInt(JOptionPane.showInputDialog("Informe a quantidade:"));
         System.out.println("quantidade é: "+quantidade);
+        jlQuantidade.setText(quantidade+"");
     }//GEN-LAST:event_jmiAddQuantidadeActionPerformed
 
     private void jmiVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVendaActionPerformed
@@ -499,6 +508,7 @@ public class ViewPDV extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
         modelo.setNumRows(0);
         jlStatus.setText("Livre");
+        jlQuantidade.setText("1");
     }
     
     private void pegarConteudo(java.awt.event.KeyEvent e){
@@ -524,6 +534,7 @@ public class ViewPDV extends javax.swing.JFrame {
                 jtfValorBruto.setText(somaValorTotal()+"");
                 jtfCodigoProduto.setText("");
                 quantidade = 1;
+                jlQuantidade.setText("1");
             } catch(NullPointerException ex){
                 JOptionPane.showMessageDialog(this, "Produto não encontrado!", "Erro", JOptionPane.ERROR_MESSAGE);                
             }catch (Exception ex) {
@@ -591,6 +602,7 @@ public class ViewPDV extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -606,6 +618,7 @@ public class ViewPDV extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlOperador;
+    private javax.swing.JLabel jlQuantidade;
     private javax.swing.JLabel jlStatus;
     private javax.swing.JMenuItem jmiAddQuantidade;
     private javax.swing.JMenuItem jmiExcluir;
