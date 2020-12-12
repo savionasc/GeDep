@@ -57,6 +57,7 @@ public class ViewLogin extends javax.swing.JFrame {
         jbSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
 
         jLabel1.setText("Usuário:");
 

@@ -48,6 +48,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema GeDep - Controle de estoque");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
         setResizable(false);
 
         uJPanelImagem1.setImagem(new java.io.File("C:\\Users\\Sávio\\Desktop\\fundo_login.png"));

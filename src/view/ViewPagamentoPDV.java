@@ -74,6 +74,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
 
         jtfTroco.setDisabledTextColor(new java.awt.Color(0, 255, 0));
         jtfTroco.setEnabled(false);

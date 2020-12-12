@@ -101,6 +101,7 @@ public class ViewUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Usuário");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
         setResizable(false);
 
         jtfCodigo.setEnabled(false);
