@@ -41,7 +41,6 @@ public class ViewPDV extends javax.swing.JFrame {
     int quantidade;
     private ViewPagamentoPDV viewPagamentoPDV;
     BLMascaras bLMascaras = new BLMascaras();
-            
     /**
      * Creates new form ViewPDV
      */
@@ -53,7 +52,7 @@ public class ViewPDV extends javax.swing.JFrame {
         setarOperador();
         this.viewPagamentoPDV = new ViewPagamentoPDV(this, true);
         limparTela();
-        jtfCodigoProduto.requestFocus();
+        jtfCodigoProduto.requestFocus();        
     }
 
     /**
@@ -448,6 +447,12 @@ public class ViewPDV extends javax.swing.JFrame {
                 jtProdutos.addRowSelectionInterval(0, 0);
             } catch (Exception e) {
                 jtfCodigoProduto.requestFocus();
+            }
+        }else if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+            if(jtfCodigoProduto.getText().equals("")){
+                excluirLinha();
+            }else{
+                jtfCodigoProduto.setText("");
             }
         }
     }//GEN-LAST:event_jtfCodigoProdutoKeyReleased
