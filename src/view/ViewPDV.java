@@ -8,9 +8,11 @@ package view;
 import controller.ControllerProdutos;
 import controller.ControllerVendas;
 import controller.ControllerVendasProdutos;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelProdutos;
@@ -46,6 +48,7 @@ public class ViewPDV extends javax.swing.JFrame {
     public ViewPDV() {
         initComponents();
         setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         quantidade = 1;
         setarOperador();
         this.viewPagamentoPDV = new ViewPagamentoPDV(this, true);
@@ -270,6 +273,11 @@ public class ViewPDV extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtProdutos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtProdutosKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtProdutos);
         if (jtProdutos.getColumnModel().getColumnCount() > 0) {
             jtProdutos.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -429,29 +437,54 @@ public class ViewPDV extends javax.swing.JFrame {
 
     private void jmiExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiExcluirActionPerformed
         // TODO add your handling code here:
-        int quantLinha = jtProdutos.getRowCount();
-        if(quantLinha < 1){
-            JOptionPane.showMessageDialog(this, "Não existe itens para excluir!");
-        }else{        
-            DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
-            int linha = Integer.parseInt(JOptionPane.showInputDialog("Informe o item que deseja excluir"));
-            modelo.removeRow(linha-1);
-            jtfValorBruto.setText(somaValorTotal() + "");
-
-            for (int i = 0; i < jtProdutos.getRowCount(); i++) {
-                modelo.setValueAt(i+1, i, 0);
-            }
-        }
+        excluirLinha();        
     }//GEN-LAST:event_jmiExcluirActionPerformed
 
     private void jtfCodigoProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoKeyReleased
         // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_T){
+            try {
+                jtProdutos.requestFocus();
+                jtProdutos.addRowSelectionInterval(0, 0);
+            } catch (Exception e) {
+                jtfCodigoProduto.requestFocus();
+            }
+        }
     }//GEN-LAST:event_jtfCodigoProdutoKeyReleased
 
     private void jtfCodigoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoProdutoKeyPressed
         // TODO add your handling code here:
         pegarConteudo(evt);
     }//GEN-LAST:event_jtfCodigoProdutoKeyPressed
+
+    private void jtProdutosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtProdutosKeyReleased
+        // TODO add your handling code here:
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_DELETE:
+                excluirLinha();
+                try {
+                    jtProdutos.requestFocus();
+                    jtProdutos.addRowSelectionInterval(0, 0);
+                } catch (Exception e) {
+                    jtfCodigoProduto.requestFocus();
+                }
+                break;
+            case KeyEvent.VK_D:
+                try {
+                    excluirLinha(jtProdutos.getSelectedRow());
+                    jtProdutos.requestFocus();
+                    jtProdutos.addRowSelectionInterval(0, 0);
+                } catch (Exception e) {
+                    jtfCodigoProduto.requestFocus();
+                }
+                break;
+            case KeyEvent.VK_ESCAPE:
+                jtProdutos.requestFocus();
+                break;
+            default:
+                break;
+        }
+    }//GEN-LAST:event_jtProdutosKeyReleased
     private void salvarVenda(){
         int codigoProduto = 0, codigoVenda = 0;
         modelVendas = new ModelVendas();
@@ -499,6 +532,42 @@ public class ViewPDV extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao salvar os produtos da venda!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    /**
+     * Exclui linha adicionada na tabela
+     */
+    private void excluirLinha(){
+        int quantLinha = jtProdutos.getRowCount();
+        if(quantLinha < 1){
+            JOptionPane.showMessageDialog(this, "Não existe itens para excluir!");
+        }else{        
+            DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
+            int linha = Integer.parseInt(JOptionPane.showInputDialog("Informe o item que deseja excluir"));
+            modelo.removeRow(linha-1);
+            jtfValorBruto.setText(somaValorTotal() + "");
+
+            for (int i = 0; i < jtProdutos.getRowCount(); i++) {
+                modelo.setValueAt(i+1, i, 0);
+            }
+        }
+    }
+    
+    private void excluirLinha(int linha){
+        int quantLinha = jtProdutos.getRowCount();
+        if(quantLinha < 1){
+            JOptionPane.showMessageDialog(this, "Não existe itens para excluir!");
+        }else{
+            DefaultTableModel modelo = (DefaultTableModel) jtProdutos.getModel();
+            modelo.removeRow(linha);
+            jtfValorBruto.setText(somaValorTotal() + "");
+
+            for (int i = 0; i < jtProdutos.getRowCount(); i++) {
+                modelo.setValueAt(i+1, i, 0);
+            }
+        }
+
+    }
+
     
     /**
      * Efetua a limpeza da tela após terminar a venda
