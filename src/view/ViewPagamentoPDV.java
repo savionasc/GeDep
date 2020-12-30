@@ -9,6 +9,7 @@ import controller.ControllerFormaPagamento;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import model.ModelFormaPagamento;
 import util.BLMascaras;
@@ -355,12 +356,16 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     }
     
     private void finalizarPagamento(){
-        this.desconto = Float.parseFloat(this.jtfDesconto.getText());
-        this.valorRecebido = Float.parseFloat(this.jtfValorRecebido.getText());
-        this.troco = Float.parseFloat(this.jtfTroco.getText());
-        this.valorTotal = Float.parseFloat(this.jlValorTotal.getText());
-        this.formaPagamento = jcbPagamento.getSelectedItem().toString();
-        this.setPago(true);
+        try {
+            this.desconto = Float.parseFloat(this.jtfDesconto.getText());
+            this.valorRecebido = Float.parseFloat(this.jtfValorRecebido.getText());
+            this.troco = Float.parseFloat(this.jtfTroco.getText());
+            this.valorTotal = Float.parseFloat(this.jlValorTotal.getText());
+            this.formaPagamento = jcbPagamento.getSelectedItem().toString();
+            this.setPago(true);            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Erro! Contate o administrador do sistema!");
+        }
         dispose();
     }
     
@@ -450,6 +455,8 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         for (int i = 0; i < listaModelFormaPagamentos.size(); i++) {
             jcbPagamento.addItem(listaModelFormaPagamentos.get(i).getForPagDescricao());
         }
+        if(jcbPagamento.getItemCount() == 0)
+            JOptionPane.showMessageDialog(rootPane, "Não há formas de pagamento cadastradas no sistema!");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

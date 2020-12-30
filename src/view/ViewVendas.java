@@ -815,13 +815,21 @@ public class ViewVendas extends javax.swing.JFrame {
     }
     
     private void preencherCodigoClientePeloCombobox(){
-        modelCliente = controllerCliente.getClienteController(jcbNomeCliente.getSelectedItem().toString());
-        jtfCodigoCliente.setText(String.valueOf(modelCliente.getIdCliente()));
+        try {
+            modelCliente = controllerCliente.getClienteController(jcbNomeCliente.getSelectedItem().toString());
+            jtfCodigoCliente.setText(String.valueOf(modelCliente.getIdCliente()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Clientes não encontrados!");
+        }
     }
     
     private void preencherCodigoProdutoPeloCombobox(){
-        modelProdutos = controllerProdutos.retornarProdutoController(jcbNomeProduto.getSelectedItem().toString());
-        jtfCodigoProduto.setText(String.valueOf(modelProdutos.getIdProduto()));
+        try {
+            modelProdutos = controllerProdutos.retornarProdutoController(jcbNomeProduto.getSelectedItem().toString());
+            jtfCodigoProduto.setText(String.valueOf(modelProdutos.getIdProduto()));            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Produtos não encontrados!");
+        }
     }
 
     /**

@@ -5,6 +5,8 @@
  */
 package view;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import javax.swing.JFrame;
 
 /**
@@ -13,12 +15,24 @@ import javax.swing.JFrame;
  */
 public class ViewPrincipal extends javax.swing.JFrame {
 
+    private File criaImagem(){
+        try {
+            return new File(getClass().getResource("/imagens/degradeazul.jpg").toURI());
+        } catch (URISyntaxException ex) {
+            return null;            
+        }
+    }
+    
     /**
      * Creates new form ViewPrincipal
      */
-    public ViewPrincipal() {
+    public ViewPrincipal(){
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+               
+        //JOptionPane.showMessageDialog(this, new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
+        
     }
 
     /**
@@ -51,7 +65,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
         setResizable(false);
 
-        uJPanelImagem1.setImagem(new java.io.File("C:\\Users\\Sávio\\Desktop\\fundo_login.png"));
+        uJPanelImagem1.setImagem(criaImagem());
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 153));
 

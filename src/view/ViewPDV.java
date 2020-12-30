@@ -102,6 +102,11 @@ public class ViewPDV extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PDV");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 153));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -491,6 +496,11 @@ public class ViewPDV extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_jtProdutosKeyReleased
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Qualquer coisa");
+    }//GEN-LAST:event_formKeyReleased
     private void salvarVenda(){
         int codigoProduto = 0, codigoVenda = 0;
         modelVendas = new ModelVendas();

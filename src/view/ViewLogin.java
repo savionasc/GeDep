@@ -57,6 +57,7 @@ public class ViewLogin extends javax.swing.JFrame {
         jbSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("GeDep - Login");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
 
         jLabel1.setText("Usuário:");
@@ -212,9 +213,14 @@ public class ViewLogin extends javax.swing.JFrame {
             modelSessaoUsuario.codigo = modelUsuario.getIdUsuario();
             modelSessaoUsuario.nome = modelUsuario.getUsuNome();
             modelSessaoUsuario.login = modelUsuario.getUsuLogin();
-            new ViewPrincipal().setVisible(true);
+            try {
+                new ViewPrincipal().setVisible(true);       
+                dispose();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fazer login!");
+            }
         }else{
-            JOptionPane.showMessageDialog(this, "Usuário ou senha inválida.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
     /**
