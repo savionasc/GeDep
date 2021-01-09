@@ -167,6 +167,7 @@ public class ViewVendas extends javax.swing.JFrame {
         });
         jPanel1.add(jtfCodigoProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 75, -1));
 
+        jtfQuantidade.setText("1");
         jtfQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfQuantidadeKeyReleased(evt);
@@ -674,6 +675,7 @@ public class ViewVendas extends javax.swing.JFrame {
                 quantidade * modelProdutos.getProValor()
             });
             somarValorTotalProdutos();
+            jtfQuantidade.setText("1");
         }
     }//GEN-LAST:event_jbAdicionarActionPerformed
 
@@ -807,6 +809,19 @@ public class ViewVendas extends javax.swing.JFrame {
                 JComponent campo = campos.get(codCampo+1);
                 if(campo.isEnabled())
                     campos.get(codCampo+1).requestFocus();
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_UP){
+                JComponent campo = campos.get(codCampo);
+                int num = Integer.parseInt(((JTextField)campo).getText()) + 1;
+                ((JTextField)campo).setText(num+"");
+            }
+            
+            if(evt.getKeyCode() == KeyEvent.VK_DOWN){
+                JComponent campo = campos.get(codCampo);
+                int num = Integer.parseInt(((JTextField)campo).getText());
+                if(num > 1)
+                    ((JTextField)campo).setText((num-1)+"");
             }
         }catch(Exception e){
             campos.get(codCampo).requestFocus();

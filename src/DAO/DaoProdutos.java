@@ -74,7 +74,8 @@ public class DaoProdutos extends ConexaoMySql {
                     "UPDATE tbl_produto SET"
                             + " pro_nome = '"+pModelProdutos.getProNome()+"',"
                             + " pro_valor = '"+pModelProdutos.getProValor()+"',"
-                            + " pro_estoque = '"+pModelProdutos.getProEstoque()+"'"
+                            + " pro_estoque = '"+pModelProdutos.getProEstoque()+"',"
+                            + " pro_cod_barra = '"+pModelProdutos.getProCodBarra()+"'"
                             + " WHERE pk_id_produto = '"+pModelProdutos.getIdProduto()+"'"
             );
         } catch (Exception e) {

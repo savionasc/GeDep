@@ -3,6 +3,7 @@ package DAO;
 import model.ModelUsuario;
 import conexoes.ConexaoMySql;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 /**
 *
 * @author Sávio Nascimento
@@ -205,9 +206,9 @@ public class DAOUsuario extends ConexaoMySql {
                  + " FROM"
                      + " tbl_usuario"
                  + " WHERE"
-                     + " pk_id_usuario = '" + pModelUsuario.getUsuLogin() + "' AND usu_senha = '"+pModelUsuario.getUsuSenha()+"';"
+                     + " usu_login = '" + pModelUsuario.getUsuLogin() + "' AND usu_senha = '"+pModelUsuario.getUsuSenha()+"';"
             );
-            
+                        
             if(getResultSet().next()){
                 return true;
             }else{

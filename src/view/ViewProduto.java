@@ -137,6 +137,11 @@ public class ViewProduto extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtProdutos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtProdutosFocusGained(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtProdutos);
         if (jtProdutos.getColumnModel().getColumnCount() > 0) {
             jtProdutos.getColumnModel().getColumn(1).setMinWidth(300);
@@ -177,6 +182,7 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jbAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/edit.png"))); // NOI18N
         jbAlterar.setText("Alterar");
+        jbAlterar.setEnabled(false);
         jbAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbAlterarActionPerformed(evt);
@@ -185,6 +191,7 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/trash-can.png"))); // NOI18N
         jbExcluir.setText("Excluir");
+        jbExcluir.setEnabled(false);
         jbExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbExcluirActionPerformed(evt);
@@ -218,6 +225,11 @@ public class ViewProduto extends javax.swing.JFrame {
         jtfCodBarra.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfCodBarraFocusLost(evt);
+            }
+        });
+        jtfCodBarra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCodBarraActionPerformed(evt);
             }
         });
         jtfCodBarra.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -351,12 +363,16 @@ public class ViewProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        cadastrarAlterar();
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void cadastrarAlterar() {
         if(salvarAlterar.equals("salvar")){
             this.salvarProduto();
         }else if(salvarAlterar.equals("alterar")){
             this.alterarProduto();
-        }        
-    }//GEN-LAST:event_jbSalvarActionPerformed
+        }
+    }
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // Exclui um produto no banco
@@ -398,7 +414,7 @@ public class ViewProduto extends javax.swing.JFrame {
             this.jtfCodigo.setText(String.valueOf(modelProdutos.getIdProduto()));
             this.jtfNome.setText(modelProdutos.getProNome());
             this.jtfEstoque.setText(String.valueOf(modelProdutos.getProEstoque()));
-            this.jtfValor.setText(String.valueOf(modelProdutos.getProValor()));
+            this.jtfValor.setText(formatador.converterPontoParaVirgulaReturnFloat(modelProdutos.getProValor()+""));
             this.jtfCodBarra.setText(modelProdutos.getProCodBarra());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado", "Aviso", JOptionPane.ERROR_MESSAGE);
@@ -407,6 +423,7 @@ public class ViewProduto extends javax.swing.JFrame {
 
     private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
         // TODO add your handling code here:
+        jtfPesquisar.setText(jtfPesquisar.getText().toUpperCase());
         DefaultTableModel modelo = (DefaultTableModel) this.jtProdutos.getModel();
         final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
         this.jtProdutos.setRowSorter(classificador);
@@ -452,6 +469,17 @@ public class ViewProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
         navegacao(5, evt);
     }//GEN-LAST:event_jtfPesquisarKeyReleased
+
+    private void jtfCodBarraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodBarraActionPerformed
+        // TODO add your handling code here:
+        cadastrarAlterar();
+    }//GEN-LAST:event_jtfCodBarraActionPerformed
+
+    private void jtProdutosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtProdutosFocusGained
+        // TODO add your handling code here:
+        jbAlterar.setEnabled(true);
+        jbExcluir.setEnabled(true);
+    }//GEN-LAST:event_jtProdutosFocusGained
 
     /**
      * @param args the command line arguments
@@ -515,9 +543,11 @@ public class ViewProduto extends javax.swing.JFrame {
     
     private void alterarProduto(){
         // Altera um produto no banco
+        modelProdutos.setIdProduto(Integer.parseInt(jtfCodigo.getText()));
         modelProdutos.setProNome(jtfNome.getText());
         modelProdutos.setProEstoque(Integer.parseInt(jtfEstoque.getText()));
         modelProdutos.setProValor(formatador.converterVirgulaParaPontoReturnFloat(jtfValor.getText()));
+        modelProdutos.setProCodBarra(jtfCodBarra.getText());
         if (controllerProdutos.alterarProdutoController(modelProdutos)){
             JOptionPane.showMessageDialog(this, "Produto alterado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.carregarProdutos();
@@ -580,9 +610,11 @@ public class ViewProduto extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(null, c.getText());
         if(evt.getKeyCode() == KeyEvent.VK_DELETE){
            if(codCampo == 2 || codCampo == 3){
-               c.setText("0");
-               campos.get(codCampo+1).requestFocus();
-               c.requestFocus();          
+               c.setText("");
+               //c.setText("0");
+               //c.selectAll();
+               //campos.get(codCampo+1).requestFocus();
+               //c.requestFocus();          
            }else{
                c.setText("");
            }    

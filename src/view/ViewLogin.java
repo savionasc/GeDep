@@ -59,6 +59,7 @@ public class ViewLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GeDep - Login");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
+        setResizable(false);
 
         jLabel1.setText("Usuário:");
 

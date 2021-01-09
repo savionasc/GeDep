@@ -6,6 +6,7 @@
 package view;
 
 import controller.ControllerCliente;
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JComponent;
@@ -212,6 +213,11 @@ public class ViewCliente extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jtfCEP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCEPActionPerformed(evt);
+            }
+        });
         jtfCEP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfCEPKeyReleased(evt);
@@ -348,20 +354,24 @@ public class ViewCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        salvarAlterar();
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void salvarAlterar() {
         // TODO add your handling code here:
         try {
             modelCliente.setIdCliente(Integer.parseInt(this.jtfCodigo.getText()));
         } catch (NumberFormatException e) {
             
         }
-        modelCliente.setCliNome(this.jtfNome.getText());            
+        modelCliente.setCliNome(this.jtfNome.getText());
         modelCliente.setCliTelefone(this.jtfTelefone.getText());
         modelCliente.setCliEndereco(this.jtfEndereco.getText());
         modelCliente.setCliCidade(this.jtfCidade.getText());
         modelCliente.setCliBairro(this.jtfBairro.getText());
         modelCliente.setCliCep(this.jtfCEP.getText());
         modelCliente.setCliUf(this.jcbUF.getSelectedItem().toString());
-    
+        
         if(salvarAlterar.equals("salvar")){
             if(controllerCliente.salvarClienteController(modelCliente) > 0){
                 JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!", "Atenção", JOptionPane.WARNING_MESSAGE);
@@ -370,7 +380,7 @@ public class ViewCliente extends javax.swing.JFrame {
                 this.habilitarDesabilitarCampos(false);
                 this.limparCampos();
             }else{
-                JOptionPane.showMessageDialog(this, "Erro ao salvar registro!", "ERRO", JOptionPane.ERROR_MESSAGE);            
+                JOptionPane.showMessageDialog(this, "Erro ao salvar registro!", "ERRO", JOptionPane.ERROR_MESSAGE);
             }
         }else{
             if(controllerCliente.atualizarClienteController(modelCliente)){
@@ -380,11 +390,10 @@ public class ViewCliente extends javax.swing.JFrame {
                 this.habilitarDesabilitarCampos(false);
                 this.limparCampos();
             }else{
-                JOptionPane.showMessageDialog(this, "Erro ao alterar registro!", "ERRO", JOptionPane.ERROR_MESSAGE);            
+                JOptionPane.showMessageDialog(this, "Erro ao alterar registro!", "ERRO", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
-    }//GEN-LAST:event_jbSalvarActionPerformed
+    }
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // Exclui um cliente no banco
@@ -424,6 +433,7 @@ public class ViewCliente extends javax.swing.JFrame {
         this.habilitarDesabilitarCampos(true);
         this.limparCampos();
         salvarAlterar = "novo";
+        this.jtfNome.requestFocus();
     }//GEN-LAST:event_jbNovoActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -472,18 +482,23 @@ public class ViewCliente extends javax.swing.JFrame {
         navegacao(7, evt);
     }//GEN-LAST:event_jtfCEPKeyReleased
 
+    private void jtfCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCEPActionPerformed
+        // TODO add your handling code here:
+        salvarAlterar();
+    }//GEN-LAST:event_jtfCEPActionPerformed
+
     /**
      * habilitar e desabilitar os campos e botões do formulário
      * @param condicao 
      */
     private void habilitarDesabilitarCampos(boolean condicao){
+        //jtfCodigo.setEnabled(condicao);
         jtfNome.setEnabled(condicao);
         jtfBairro.setEnabled(condicao);
         jtfEndereco.setEnabled(condicao);
         jtfCEP.setEnabled(condicao);
         jtfCidade.setEnabled(condicao);
         jtfTelefone.setEnabled(condicao);
-        jtfCodigo.setEnabled(condicao);
         jcbUF.setEnabled(condicao);
         jbSalvar.setEnabled(condicao);
     }
