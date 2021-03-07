@@ -15,6 +15,7 @@ import javax.swing.table.TableRowSorter;
 import model.ModelProdutos;
 import utils.Formatador;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 /**
@@ -392,6 +393,7 @@ public class ViewProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.habilitarDesabilitarCampos(true);
         salvarAlterar = "salvar";
+        this.limparCampos();
         jtfNome.requestFocus();
     }//GEN-LAST:event_jbNovoActionPerformed
 

@@ -8,8 +8,11 @@ package view;
 import controller.ControllerProdutos;
 import controller.ControllerVendas;
 import controller.ControllerVendasProdutos;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -408,9 +411,7 @@ public class ViewPDV extends javax.swing.JFrame {
 
     private void jmiAddQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddQuantidadeActionPerformed
         // TODO add your handling code here:
-        quantidade = Integer.parseInt(JOptionPane.showInputDialog("Informe a quantidade:"));
-        System.out.println("quantidade é: "+quantidade);
-        jlQuantidade.setText(quantidade+"");
+        solicitarQuantidade();
     }//GEN-LAST:event_jmiAddQuantidadeActionPerformed
 
     private void jmiVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVendaActionPerformed
@@ -498,9 +499,13 @@ public class ViewPDV extends javax.swing.JFrame {
     }//GEN-LAST:event_jtProdutosKeyReleased
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "Qualquer coisa");
     }//GEN-LAST:event_formKeyReleased
+    private void solicitarQuantidade(){
+        quantidade = Integer.parseInt(JOptionPane.showInputDialog("Informe a quantidade:"));
+        jlQuantidade.setText(quantidade+"");
+    }
+    
     private void salvarVenda(){
         int codigoProduto = 0, codigoVenda = 0;
         modelVendas = new ModelVendas();
