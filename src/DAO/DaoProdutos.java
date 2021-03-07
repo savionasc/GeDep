@@ -205,6 +205,7 @@ public class DaoProdutos extends ConexaoMySql {
                     + "pk_id_produto,"
                     + "pro_nome,"
                     + "pro_valor,"
+                    + "pro_cod_barra,"
                     + "pro_estoque "
                     + "FROM tbl_produto");
             
@@ -213,7 +214,8 @@ public class DaoProdutos extends ConexaoMySql {
                 modelProdutos.setIdProduto(this.getResultSet().getInt(1));
                 modelProdutos.setProNome(this.getResultSet().getString(2));
                 modelProdutos.setProValor(this.getResultSet().getDouble(3));
-                modelProdutos.setProEstoque(this.getResultSet().getInt(4));
+                modelProdutos.setProCodBarra(this.getResultSet().getString(4));
+                modelProdutos.setProEstoque(this.getResultSet().getInt(5));
                 modelProdutos.setAtivo(true);
                 listaModelProdutos.add(modelProdutos);
             }

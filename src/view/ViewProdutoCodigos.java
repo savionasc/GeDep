@@ -18,6 +18,11 @@ import utils.Formatador;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Enumeration;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -26,31 +31,29 @@ import javax.swing.JTextField;
  *
  * @author Sávio
  */
-public class ViewProduto extends javax.swing.JFrame {
+public class ViewProdutoCodigos extends javax.swing.JFrame {
     
     ArrayList<ModelProdutos> listaModelProdutos = new ArrayList<>();
     ControllerProdutos controllerProdutos = new ControllerProdutos();
     ModelProdutos modelProdutos = new ModelProdutos();
     Formatador formatador = new Formatador();
     String salvarAlterar;
-    ArrayList<JTextField> campos = new ArrayList<>();
+    ArrayList<JComponent> campos = new ArrayList<>();
     
     //Lista de codigo dos campos
     
     /**
      * Creates new form ViewProduto
      */
-    public ViewProduto() {
+    public ViewProdutoCodigos() {
         initComponents();
         this.carregarProdutos();
         setLocationRelativeTo(null);
-        this.habilitarDesabilitarCampos(false);
-        campos.add(jtfCodigo);
-        campos.add(jtfNome);
-        campos.add(jtfEstoque);
-        campos.add(jtfValor);
-        campos.add(jtfCodBarra);
+        campos.add(jRBNome);
+        campos.add(jRBCodigo);
+        campos.add(jRBCodigoBarras);
         campos.add(jtfPesquisar);
+        jtfPesquisar.requestFocus();
         
         //adicionando função de clique duplo
         jtProdutos.addMouseListener(new MouseAdapter() {
@@ -59,7 +62,7 @@ public class ViewProduto extends javax.swing.JFrame {
                 Point point = mouseEvent.getPoint();
                 int row = table.rowAtPoint(point);
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    JOptionPane.showMessageDialog(rootPane, "*Clique duplo*\nAqui eu quero abrir uma nova janela.");
+                    detalharProduto();
                 }
             }
         });
@@ -75,6 +78,7 @@ public class ViewProduto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tipoPesquisa = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -88,27 +92,27 @@ public class ViewProduto extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jtfPesquisar = new javax.swing.JTextField();
         jbPesquisar = new javax.swing.JButton();
-        jbCancelar = new javax.swing.JButton();
-        jbNovo = new javax.swing.JButton();
-        jbAlterar = new javax.swing.JButton();
-        jbExcluir = new javax.swing.JButton();
-        jbSalvar = new javax.swing.JButton();
-        jcbVariosProdutos = new javax.swing.JCheckBox();
         jtfEstoque = new javax.swing.JFormattedTextField();
         jtfValor = new javax.swing.JFormattedTextField();
         jtfCodBarra = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jRBNome = new javax.swing.JRadioButton();
+        jRBCodigo = new javax.swing.JRadioButton();
+        jRBCodigoBarras = new javax.swing.JRadioButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Produtos");
+        setTitle("Consulta de Produtos");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
         setResizable(false);
 
-        jLabel1.setText("Produtos");
+        jLabel1.setText("Consulta de Produtos");
 
         jLabel2.setText("Código:");
 
-        jtfCodigo.setEnabled(false);
+        jtfCodigo.setEditable(false);
         jtfCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfCodigoKeyReleased(evt);
@@ -121,6 +125,7 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jLabel5.setText("Nome:");
 
+        jtfNome.setEditable(false);
         jtfNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfNomeFocusLost(evt);
@@ -137,14 +142,14 @@ public class ViewProduto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nome", "Estoque", "Valor"
+                "Nome", "Código", "Barras"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -162,12 +167,19 @@ public class ViewProduto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtProdutos);
         if (jtProdutos.getColumnModel().getColumnCount() > 0) {
-            jtProdutos.getColumnModel().getColumn(1).setMinWidth(300);
-            jtProdutos.getColumnModel().getColumn(1).setPreferredWidth(300);
+            jtProdutos.getColumnModel().getColumn(0).setMinWidth(120);
+            jtProdutos.getColumnModel().getColumn(0).setPreferredWidth(200);
+            jtProdutos.getColumnModel().getColumn(1).setMinWidth(20);
+            jtProdutos.getColumnModel().getColumn(2).setMinWidth(40);
         }
 
         jLabel6.setText("Pesquisar:");
 
+        jtfPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfPesquisarActionPerformed(evt);
+            }
+        });
         jtfPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfPesquisarKeyReleased(evt);
@@ -182,50 +194,7 @@ public class ViewProduto extends javax.swing.JFrame {
             }
         });
 
-        jbCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/Cancel.png"))); // NOI18N
-        jbCancelar.setText("Cancelar");
-        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCancelarActionPerformed(evt);
-            }
-        });
-
-        jbNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/document.png"))); // NOI18N
-        jbNovo.setText("Novo");
-        jbNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbNovoActionPerformed(evt);
-            }
-        });
-
-        jbAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/edit.png"))); // NOI18N
-        jbAlterar.setText("Alterar");
-        jbAlterar.setEnabled(false);
-        jbAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAlterarActionPerformed(evt);
-            }
-        });
-
-        jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/trash-can.png"))); // NOI18N
-        jbExcluir.setText("Excluir");
-        jbExcluir.setEnabled(false);
-        jbExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbExcluirActionPerformed(evt);
-            }
-        });
-
-        jbSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/check.png"))); // NOI18N
-        jbSalvar.setText("Salvar");
-        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbSalvarActionPerformed(evt);
-            }
-        });
-
-        jcbVariosProdutos.setText("Vários produtos");
-
+        jtfEstoque.setEditable(false);
         jtfEstoque.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jtfEstoque.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -233,6 +202,7 @@ public class ViewProduto extends javax.swing.JFrame {
             }
         });
 
+        jtfValor.setEditable(false);
         jtfValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         jtfValor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -240,6 +210,7 @@ public class ViewProduto extends javax.swing.JFrame {
             }
         });
 
+        jtfCodBarra.setEditable(false);
         jtfCodBarra.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jtfCodBarraFocusLost(evt);
@@ -258,63 +229,89 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jLabel7.setText("Código de Barras:");
 
+        tipoPesquisa.add(jRBNome);
+        jRBNome.setSelected(true);
+        jRBNome.setText("Nome");
+        jRBNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jRBNomeKeyReleased(evt);
+            }
+        });
+
+        tipoPesquisa.add(jRBCodigo);
+        jRBCodigo.setText("Código");
+        jRBCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBCodigoActionPerformed(evt);
+            }
+        });
+        jRBCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jRBCodigoKeyReleased(evt);
+            }
+        });
+
+        tipoPesquisa.add(jRBCodigoBarras);
+        jRBCodigoBarras.setText("Código de Barras");
+        jRBCodigoBarras.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jRBCodigoBarrasKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jbCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbNovo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbAlterar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbExcluir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbSalvar)
-                .addGap(29, 29, 29))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(219, 219, 219)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtfCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jtfEstoque))
+                                .addGap(18, 18, 18)
+                                .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(199, 199, 199)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(112, 112, 112)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel4)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(108, 108, 108)
+                                        .addComponent(jtfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jtfCodBarra, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(108, 108, 108)
+                                .addComponent(jRBNome)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRBCodigo)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRBCodigoBarras)))
+                        .addGap(0, 2, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jtfPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbPesquisar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtfCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jtfEstoque))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(4, 4, 4)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel4))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jtfCodBarra, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(jcbVariosProdutos)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbPesquisar)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,16 +321,16 @@ public class ViewProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addGap(25, 25, 25))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -343,24 +340,45 @@ public class ViewProduto extends javax.swing.JFrame {
                             .addComponent(jtfEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtfValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtfCodBarra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRBNome)
+                    .addComponent(jRBCodigo)
+                    .addComponent(jRBCodigoBarras))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jtfPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(jcbVariosProdutos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbCancelar)
-                    .addComponent(jbNovo)
-                    .addComponent(jbAlterar)
-                    .addComponent(jbExcluir)
-                    .addComponent(jbSalvar))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jMenu1.setText("Esc para sair");
+        jMenu1.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+                jMenu1MenuKeyPressed(evt);
+            }
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            }
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
+        });
+
+        jRadioButtonMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0));
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("Sair");
+        jRadioButtonMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jRadioButtonMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -379,54 +397,122 @@ public class ViewProduto extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
+        pesquisar();
+    }//GEN-LAST:event_jbPesquisarActionPerformed
 
-    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        cadastrarAlterar();
-    }//GEN-LAST:event_jbSalvarActionPerformed
+    private void jtfNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfNomeFocusLost
+        this.jtfNome.setText(this.jtfNome.getText().toUpperCase());
+    }//GEN-LAST:event_jtfNomeFocusLost
 
-    private void cadastrarAlterar() {
-        if(salvarAlterar.equals("salvar")){
-            this.salvarProduto();
-        }else if(salvarAlterar.equals("alterar")){
-            this.alterarProduto();
+    private void jtfCodBarraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfCodBarraFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodBarraFocusLost
+
+    private void jtfCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyReleased
+        
+    }//GEN-LAST:event_jtfCodigoKeyReleased
+
+    private void jtfNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNomeKeyReleased
+        
+    }//GEN-LAST:event_jtfNomeKeyReleased
+
+    private void jtfEstoqueKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfEstoqueKeyReleased
+        
+    }//GEN-LAST:event_jtfEstoqueKeyReleased
+
+    private void jtfValorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfValorKeyReleased
+        
+    }//GEN-LAST:event_jtfValorKeyReleased
+
+    private void jtfCodBarraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodBarraKeyReleased
+        
+    }//GEN-LAST:event_jtfCodBarraKeyReleased
+
+    private void jtfPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPesquisarKeyReleased
+        navegacao(3, evt);
+    }//GEN-LAST:event_jtfPesquisarKeyReleased
+
+    private void jtfCodBarraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodBarraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCodBarraActionPerformed
+
+    private void jtProdutosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtProdutosFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtProdutosFocusGained
+
+    private void jtfPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfPesquisarActionPerformed
+        // TODO add your handling code here:
+        pesquisar();
+    }//GEN-LAST:event_jtfPesquisarActionPerformed
+
+    private void jRBCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBCodigoActionPerformed
+
+    private void jMenu1MenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_jMenu1MenuKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1MenuKeyPressed
+
+    private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
+
+    private void jRBNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jRBNomeKeyReleased
+        // TODO add your handling code here:
+        navegacao(0, evt);
+    }//GEN-LAST:event_jRBNomeKeyReleased
+
+    private void jRBCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jRBCodigoKeyReleased
+        // TODO add your handling code here:
+        navegacao(1, evt);
+    }//GEN-LAST:event_jRBCodigoKeyReleased
+
+    private void jRBCodigoBarrasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jRBCodigoBarrasKeyReleased
+        // TODO add your handling code here:
+        navegacao(2, evt);
+    }//GEN-LAST:event_jRBCodigoBarrasKeyReleased
+
+    public String pegarNomeBotaoRadioSelecionado(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                return button.getText();
+            }
         }
+
+        return null;
     }
-
-    private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
-        // Exclui um produto no banco
-        int linhaSelecionada = jtProdutos.getSelectedRow();
-        int codigoProduto = (int) jtProdutos.getValueAt(linhaSelecionada, 0);
-        
-        if(controllerProdutos.excluirProdutoController(codigoProduto)){
-            JOptionPane.showMessageDialog(this, "Produto excluído com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.carregarProdutos();
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao excluir o produto", "ERRO", JOptionPane.ERROR_MESSAGE);
+    
+    public int pegarColunaBotaoRadioSelecionado(ButtonGroup buttonGroup) {
+        int i = -1;
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+            i++;
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                return i;
+            }
         }
+
+        return -1;
+    }
+    
+    private void pesquisar(){
         
-    }//GEN-LAST:event_jbExcluirActionPerformed
-
-    private void jbNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNovoActionPerformed
-        // TODO add your handling code here:
-        this.habilitarDesabilitarCampos(true);
-        salvarAlterar = "salvar";
-        this.limparCampos();
-        jtfNome.requestFocus();
-    }//GEN-LAST:event_jbNovoActionPerformed
-
-    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        // TODO add your handling code here:
-        this.habilitarDesabilitarCampos(false);
-        this.limparCampos();
-    }//GEN-LAST:event_jbCancelarActionPerformed
-
-    private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
-        // TODO add your handling code here:
-        salvarAlterar = "alterar";
-        habilitarDesabilitarCampos(true);
+        jtfPesquisar.setText(jtfPesquisar.getText().toUpperCase());
+        DefaultTableModel modelo = (DefaultTableModel) this.jtProdutos.getModel();
+        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
+        this.jtProdutos.setRowSorter(classificador);
+        String texto = jtfPesquisar.getText();
+        classificador.setRowFilter(RowFilter.regexFilter(texto, pegarColunaBotaoRadioSelecionado(tipoPesquisa)));
+    }
+    
+    private void detalharProduto(){
         int linha = this.jtProdutos.getSelectedRow();
         try {
-            int codigoProduto = (int) this.jtProdutos.getValueAt(linha, 0);
+            int codigoProduto = (int) this.jtProdutos.getValueAt(linha, 1);
             //recuperar dados do banco
             modelProdutos = controllerProdutos.retornarProdutoController(codigoProduto);
             //set na interface
@@ -438,68 +524,8 @@ public class ViewProduto extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado", "Aviso", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jbAlterarActionPerformed
-
-    private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
-        // TODO add your handling code here:
-        jtfPesquisar.setText(jtfPesquisar.getText().toUpperCase());
-        DefaultTableModel modelo = (DefaultTableModel) this.jtProdutos.getModel();
-        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
-        this.jtProdutos.setRowSorter(classificador);
-        String texto = jtfPesquisar.getText();
-        classificador.setRowFilter(RowFilter.regexFilter(texto, 1));
-    }//GEN-LAST:event_jbPesquisarActionPerformed
-
-    private void jtfNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfNomeFocusLost
-        // TODO add your handling code here:
-        this.jtfNome.setText(this.jtfNome.getText().toUpperCase());
-    }//GEN-LAST:event_jtfNomeFocusLost
-
-    private void jtfCodBarraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfCodBarraFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodBarraFocusLost
-
-    private void jtfCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodigoKeyReleased
-        // TODO add your handling code here:
-        navegacao(0, evt);
-    }//GEN-LAST:event_jtfCodigoKeyReleased
-
-    private void jtfNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfNomeKeyReleased
-        // TODO add your handling code here:
-        navegacao(1, evt);
-    }//GEN-LAST:event_jtfNomeKeyReleased
-
-    private void jtfEstoqueKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfEstoqueKeyReleased
-        // TODO add your handling code here:
-        navegacao(2, evt);
-    }//GEN-LAST:event_jtfEstoqueKeyReleased
-
-    private void jtfValorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfValorKeyReleased
-        // TODO add your handling code here:
-        navegacao(3, evt);
-    }//GEN-LAST:event_jtfValorKeyReleased
-
-    private void jtfCodBarraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfCodBarraKeyReleased
-        // TODO add your handling code here:
-        navegacao(4, evt);
-    }//GEN-LAST:event_jtfCodBarraKeyReleased
-
-    private void jtfPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPesquisarKeyReleased
-        // TODO add your handling code here:
-        navegacao(5, evt);
-    }//GEN-LAST:event_jtfPesquisarKeyReleased
-
-    private void jtfCodBarraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodBarraActionPerformed
-        // TODO add your handling code here:
-        cadastrarAlterar();
-    }//GEN-LAST:event_jtfCodBarraActionPerformed
-
-    private void jtProdutosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtProdutosFocusGained
-        // TODO add your handling code here:
-        jbAlterar.setEnabled(true);
-        jbExcluir.setEnabled(true);
-    }//GEN-LAST:event_jtProdutosFocusGained
-
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -517,82 +543,25 @@ public class ViewProduto extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewProdutoCodigos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewProdutoCodigos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewProdutoCodigos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewProduto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewProdutoCodigos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewProduto().setVisible(true);
+                new ViewProdutoCodigos().setVisible(true);
             }
         });
     }
-    
-    private void salvarProduto(){
-        // Salva um novo produto no banco
-        try{
-            modelProdutos.setProNome(jtfNome.getText());
-            modelProdutos.setProEstoque(Integer.parseInt(jtfEstoque.getText()));
-            modelProdutos.setProValor(formatador.converterVirgulaParaPontoReturnFloat(jtfValor.getText()));
-            modelProdutos.setProCodBarra(jtfCodBarra.getText());
-            modelProdutos.setProCodBarra(jtfCodBarra.getText());
-            if (controllerProdutos.salvarProdutoController(modelProdutos) > 0){
-                JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-                this.carregarProdutos();
-                this.limparCampos();
-                if(!jcbVariosProdutos.isSelected()){
-                    this.habilitarDesabilitarCampos(false);
-                }else{
-                    jtfNome.requestFocus();
-                }
-            }else{
-                JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private void alterarProduto(){
-        // Altera um produto no banco
-        modelProdutos.setIdProduto(Integer.parseInt(jtfCodigo.getText()));
-        modelProdutos.setProNome(jtfNome.getText());
-        modelProdutos.setProEstoque(Integer.parseInt(jtfEstoque.getText()));
-        modelProdutos.setProValor(formatador.converterVirgulaParaPontoReturnFloat(jtfValor.getText()));
-        modelProdutos.setProCodBarra(jtfCodBarra.getText());
-        if (controllerProdutos.alterarProdutoController(modelProdutos)){
-            JOptionPane.showMessageDialog(this, "Produto alterado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.carregarProdutos();
-            this.limparCampos();
-            if(!jcbVariosProdutos.isSelected()){
-                this.habilitarDesabilitarCampos(false);
-            }else{
-                jtfNome.requestFocus();
-            }
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao alterar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    /**
-     * habilitar e desabilitar os campos do formulário
-     * @param condicao 
-     */
-    private void habilitarDesabilitarCampos(boolean condicao){
-        jtfNome.setEnabled(condicao);
-        jtfEstoque.setEnabled(condicao);
-        jtfValor.setEnabled(condicao);
-        jbSalvar.setEnabled(condicao);
-        jtfCodBarra.setEnabled(condicao);
-    }
-    
+            
     /**
      * Limpa os campos do formulário
      */
@@ -616,38 +585,35 @@ public class ViewProduto extends javax.swing.JFrame {
         
         for (int i = 0; i < count; i++) {
             modelo.addRow(new Object[]{
-                listaModelProdutos.get(i).getIdProduto(),
                 listaModelProdutos.get(i).getProNome(),
-                listaModelProdutos.get(i).getProEstoque(),
-                "R$ "+listaModelProdutos.get(i).getProValor()
+                listaModelProdutos.get(i).getIdProduto(),
+                listaModelProdutos.get(i).getProCodBarra()
             });
         }
     }
     
     private void navegacao(int codCampo, KeyEvent evt) {
-        JTextField c = campos.get(codCampo);
+        JComponent c = campos.get(codCampo);
         //JOptionPane.showMessageDialog(null, c.getText());
         if(evt.getKeyCode() == KeyEvent.VK_DELETE){
-           if(codCampo == 2 || codCampo == 3){
-               c.setText("");
+           if(codCampo == 3){
+               ((JTextField) c).setText("");
                //c.setText("0");
                //c.selectAll();
                //campos.get(codCampo+1).requestFocus();
                //c.requestFocus();          
-           }else{
-               c.setText("");
            }    
         }
         
         try{
             if(evt.getKeyCode() == KeyEvent.VK_LEFT){
-                JTextField campo = campos.get(codCampo-1);
+                JComponent campo = campos.get(codCampo-1);
                 if(campo.isEnabled())
                     campos.get(codCampo-1).requestFocus();
             }
             
             if(evt.getKeyCode() == KeyEvent.VK_RIGHT){
-                JTextField campo = campos.get(codCampo+1);
+                JComponent campo = campos.get(codCampo+1);
                 if(campo.isEnabled())
                     campos.get(codCampo+1).requestFocus();
             }
@@ -665,15 +631,15 @@ public class ViewProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRBCodigo;
+    private javax.swing.JRadioButton jRBCodigoBarras;
+    private javax.swing.JRadioButton jRBNome;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbAlterar;
-    private javax.swing.JButton jbCancelar;
-    private javax.swing.JButton jbExcluir;
-    private javax.swing.JButton jbNovo;
     private javax.swing.JButton jbPesquisar;
-    private javax.swing.JButton jbSalvar;
-    private javax.swing.JCheckBox jcbVariosProdutos;
     private javax.swing.JTable jtProdutos;
     private javax.swing.JTextField jtfCodBarra;
     private javax.swing.JTextField jtfCodigo;
@@ -681,5 +647,6 @@ public class ViewProduto extends javax.swing.JFrame {
     private javax.swing.JTextField jtfNome;
     private javax.swing.JTextField jtfPesquisar;
     private javax.swing.JFormattedTextField jtfValor;
+    private javax.swing.ButtonGroup tipoPesquisa;
     // End of variables declaration//GEN-END:variables
 }

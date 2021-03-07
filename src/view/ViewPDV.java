@@ -8,11 +8,8 @@ package view;
 import controller.ControllerProdutos;
 import controller.ControllerVendas;
 import controller.ControllerVendasProdutos;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -55,7 +52,8 @@ public class ViewPDV extends javax.swing.JFrame {
         setarOperador();
         this.viewPagamentoPDV = new ViewPagamentoPDV(this, true);
         limparTela();
-        jtfCodigoProduto.requestFocus();        
+        jtfCodigoProduto.requestFocus();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -105,6 +103,7 @@ public class ViewPDV extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PDV");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/imagens/GeDep.png")).getImage());
+        setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 formKeyReleased(evt);
@@ -434,6 +433,7 @@ public class ViewPDV extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
+        new ViewProdutoCodigos().setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jmiSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSairActionPerformed
