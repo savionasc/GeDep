@@ -275,8 +275,12 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
 
     private void jbOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbOKActionPerformed
         // finaliza o pagamento
-        finalizarPagamento();
-        
+        if(Double.parseDouble(jlValorTotal.getText()) > 0){
+            finalizarPagamento();
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Por favor, escolha a forma de pagamento e digite o valor recebido!");
+        }
+            
     }//GEN-LAST:event_jbOKActionPerformed
 
     private void jtfDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfDescontoFocusLost
@@ -396,7 +400,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
         
         //calcular valor a pagar
         pagar = subTotal - desconto;
-        jlValorTotal.setText(bl.arredondamentoComPontoDuasCasasString(pagar)+"");
+        jlValorTotal.setText(""+bl.arredondamentoComPontoDuasCasasString(pagar));
         
         //calcular troco
         troco = recebido - pagar;
