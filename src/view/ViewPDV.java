@@ -53,7 +53,6 @@ public class ViewPDV extends javax.swing.JFrame {
         this.viewPagamentoPDV = new ViewPagamentoPDV(this, true);
         limparTela();
         jtfCodigoProduto.requestFocus();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -518,7 +517,12 @@ public class ViewPDV extends javax.swing.JFrame {
         
         modelVendas.setVenValorBruto(Double.parseDouble(jtfValorBruto.getText()));
         modelVendas.setVenDesconto(viewPagamentoPDV.getDesconto());
-        modelVendas.setVenValorLiquido(bLMascaras.arredondamentoComPontoDuasCasasDouble(Double.parseDouble(viewPagamentoPDV.getValorTotal()+"")));
+        if(viewPagamentoPDV.getValorTotal() > 0)
+            modelVendas.setVenValorLiquido(bLMascaras.arredondamentoComPontoDuasCasasDouble(Double.parseDouble(viewPagamentoPDV.getValorTotal()+"")));
+        else
+            modelVendas.setVenValorLiquido(modelVendas.getVenValorBruto());
+        
+        
 
         //Salvar venda
         codigoVenda = controllerVendas.salvarVendasController(modelVendas);

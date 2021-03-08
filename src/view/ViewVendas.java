@@ -348,11 +348,11 @@ public class ViewVendas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nome Cliente", "Data"
+                "Código", "Nome Cliente", "Preço", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -367,6 +367,9 @@ public class ViewVendas extends javax.swing.JFrame {
             jtVendas.getColumnModel().getColumn(2).setMinWidth(110);
             jtVendas.getColumnModel().getColumn(2).setPreferredWidth(110);
             jtVendas.getColumnModel().getColumn(2).setMaxWidth(110);
+            jtVendas.getColumnModel().getColumn(3).setMinWidth(110);
+            jtVendas.getColumnModel().getColumn(3).setPreferredWidth(110);
+            jtVendas.getColumnModel().getColumn(3).setMaxWidth(110);
         }
 
         jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/18px/trash-can.png"))); // NOI18N
@@ -903,6 +906,7 @@ public class ViewVendas extends javax.swing.JFrame {
             modelo.addRow(new Object[]{
                 listaModelVendasClientes.get(i).getModelVendas().getIdVenda(),
                 listaModelVendasClientes.get(i).getModelCliente().getCliNome(),
+                listaModelVendasClientes.get(i).getModelVendas().getVenValorLiquido(),
                 listaModelVendasClientes.get(i).getModelVendas().getVenDataVenda()
             });
         }

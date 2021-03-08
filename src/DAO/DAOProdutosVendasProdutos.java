@@ -50,7 +50,7 @@ public class DAOProdutosVendasProdutos extends ConexaoMySql {
                 modelVendasProdutos.setVendas(this.getResultSet().getInt(6));
                 modelVendasProdutos.setIdVendaProduto(this.getResultSet().getInt(7));
                 modelVendasProdutos.setVenProQuantidade(this.getResultSet().getInt(8));
-                modelVendasProdutos.setVenProValor(this.getResultSet().getInt(9));
+                modelVendasProdutos.setVenProValor(this.getResultSet().getDouble(9));
                 
                 modelProdutosVendasProdutos.setModelProdutos(modelProdutos);
                 modelProdutosVendasProdutos.setModelVendasProdutos(modelVendasProdutos);
