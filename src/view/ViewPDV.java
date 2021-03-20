@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.ControllerCliente;
 import controller.ControllerProdutos;
 import controller.ControllerVendas;
 import controller.ControllerVendasProdutos;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.ModelCliente;
 import model.ModelProdutos;
 import model.ModelSessaoUsuario;
 import model.ModelVendas;
@@ -508,7 +510,10 @@ public class ViewPDV extends javax.swing.JFrame {
     private void salvarVenda(){
         int codigoProduto = 0, codigoVenda = 0;
         modelVendas = new ModelVendas();
-        modelVendas.setCliente(1);
+        ControllerCliente cc = new ControllerCliente();
+        ModelCliente m = new ModelCliente();
+        
+        modelVendas.setCliente(cc.getClienteController(viewPagamentoPDV.cliente).getIdCliente());
         try {
             modelVendas.setVenDataVenda(bLDatas.converterDataParaDateUS(new java.util.Date(System.currentTimeMillis())));
         } catch (Exception ex) {
