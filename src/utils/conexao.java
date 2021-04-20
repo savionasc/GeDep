@@ -6,7 +6,7 @@ public class conexao
 {
        // final private String driver = "sun.jdbc.odbc.JdbcOdbcDriver";
         // voces verão ainda como efetuar conexão com diversos bancos
-        final private String url = "jdbc:odbc:almoxarifado";
+        final private String url = "jdbc:odbc:gedep";
         final private String usuario = "root";
         final private String senha = "";
         private Connection conexao;
@@ -19,7 +19,7 @@ public class conexao
            try {
                Class.forName("com.mysql.jdbc.Driver");
                try {
-                   conexao = DriverManager.getConnection("jdbc:mysql://127.0.0.1/almoxarifado", "root", "");
+                   conexao = DriverManager.getConnection("jdbc:mysql://127.0.0.1/gedep", "root", "");
                    //JOptionPane.showMessageDialog(null,"conectou");
                } catch (SQLException ex) {
                    JOptionPane.showMessageDialog(null, "ocorrou um erro de sql");

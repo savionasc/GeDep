@@ -13,29 +13,21 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import utils.conexao;
-import utils.data;
 
-/**
- *
- * @author Maria Jêsca
- */
-public class GerarRelat extends javax.swing.JFrame {
+public class GerarRelatDB extends javax.swing.JFrame {
 
-    data mostra_data;
     conexao con_material;
-    public GerarRelat() {
+    public GerarRelatDB() {
         initComponents();
         con_material = new conexao();
         con_material.conecta();
-        con_material.executeSQL("select * from historico");        
+        con_material.executeSQL("select * from tbl_produto");        
         try {
             con_material.resultset.first();
         } catch (SQLException ex) {
-            Logger.getLogger(GerarRelat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
         }
        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-       mostra_data = new data();
-       mostra_data.le_data();
     }
 
     /**
@@ -142,9 +134,9 @@ public class GerarRelat extends javax.swing.JFrame {
             OutputStream o = new FileOutputStream("historico.pdf");
             PdfWriter.getInstance(documento, o);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(GerarRelat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DocumentException ex) {
-            Logger.getLogger(GerarRelat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         documento.open();
@@ -155,7 +147,7 @@ public class GerarRelat extends javax.swing.JFrame {
             paragrafo.remove(0);
 
         } catch (DocumentException ex) {
-            Logger.getLogger(GerarRelat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             //documento.add(paragrafo);
@@ -175,15 +167,13 @@ public class GerarRelat extends javax.swing.JFrame {
             }
             documento.close();
         } catch (DocumentException ex) {
-            Logger.getLogger(GerarRelat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         JOptionPane.showMessageDialog(rootPane, "Relatório gerado.");
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void timer1OnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timer1OnTime
-        mostra_data.le_hora();
-        tf_data1.setText(mostra_data.dia + " de " + mostra_data.mes + " de " + mostra_data.ano+" - " +mostra_data.hora);
     }//GEN-LAST:event_timer1OnTime
 
     /**
@@ -203,21 +193,23 @@ public class GerarRelat extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerarRelat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerarRelat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerarRelat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerarRelat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerarRelat().setVisible(true);
+                new GerarRelatDB().setVisible(true);
             }
         });
     }
@@ -236,7 +228,7 @@ public void pesquisando(){
         try {
             con_material.resultset.first();
         } catch (SQLException ex) {
-            Logger.getLogger(GerarRelat.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
         }
 }
 public void preencher_jtable(){
