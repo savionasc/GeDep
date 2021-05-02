@@ -168,6 +168,11 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jLabel6.setText("Pesquisar:");
 
+        jtfPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfPesquisarActionPerformed(evt);
+            }
+        });
         jtfPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jtfPesquisarKeyReleased(evt);
@@ -441,6 +446,10 @@ public class ViewProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_jbAlterarActionPerformed
 
     private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
+        pesquisar();
+    }//GEN-LAST:event_jbPesquisarActionPerformed
+
+    private void pesquisar() {
         // TODO add your handling code here:
         jtfPesquisar.setText(jtfPesquisar.getText().toUpperCase());
         DefaultTableModel modelo = (DefaultTableModel) this.jtProdutos.getModel();
@@ -448,7 +457,7 @@ public class ViewProduto extends javax.swing.JFrame {
         this.jtProdutos.setRowSorter(classificador);
         String texto = jtfPesquisar.getText();
         classificador.setRowFilter(RowFilter.regexFilter(texto, 1));
-    }//GEN-LAST:event_jbPesquisarActionPerformed
+    }
 
     private void jtfNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfNomeFocusLost
         // TODO add your handling code here:
@@ -487,6 +496,8 @@ public class ViewProduto extends javax.swing.JFrame {
     private void jtfPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPesquisarKeyReleased
         // TODO add your handling code here:
         navegacao(5, evt);
+        if(jtfPesquisar.getText().equals("") && (evt.getKeyCode() == KeyEvent.VK_DELETE || evt.getKeyCode() == KeyEvent.VK_BACK_SPACE))
+            pesquisar();
     }//GEN-LAST:event_jtfPesquisarKeyReleased
 
     private void jtfCodBarraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodBarraActionPerformed
@@ -499,6 +510,11 @@ public class ViewProduto extends javax.swing.JFrame {
         jbAlterar.setEnabled(true);
         jbExcluir.setEnabled(true);
     }//GEN-LAST:event_jtProdutosFocusGained
+
+    private void jtfPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfPesquisarActionPerformed
+        // TODO add your handling code here:
+        pesquisar();
+    }//GEN-LAST:event_jtfPesquisarActionPerformed
 
     /**
      * @param args the command line arguments

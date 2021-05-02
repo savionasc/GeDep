@@ -348,7 +348,7 @@ public class ViewVendas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nome Cliente", "Preço", "Data"
+                "Código", "Nome Cliente / Tipo da Venda", "Preço", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -907,7 +907,7 @@ public class ViewVendas extends javax.swing.JFrame {
                 listaModelVendasClientes.get(i).getModelVendas().getIdVenda(),
                 listaModelVendasClientes.get(i).getModelCliente().getCliNome(),
                 listaModelVendasClientes.get(i).getModelVendas().getVenValorLiquido(),
-                listaModelVendasClientes.get(i).getModelVendas().getVenDataVenda()
+                bLDatas.formatarData(listaModelVendasClientes.get(i).getModelVendas().getVenDataVenda())
             });
         }
     }
