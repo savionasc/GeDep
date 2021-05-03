@@ -27,7 +27,7 @@ public class ControllerTablePDF {
         PdfPCell celulaProduto = new PdfPCell(new Phrase("Produto"));
         celulaProduto.setHorizontalAlignment(Element.ALIGN_CENTER);
         celulaProduto.setBackgroundColor(BaseColor.LIGHT_GRAY);
-        PdfPCell celulaValorUnitario = new PdfPCell(new Phrase("Unidade"));
+        PdfPCell celulaValorUnitario = new PdfPCell(new Phrase("Preço Unid"));
         celulaValorUnitario.setHorizontalAlignment(Element.ALIGN_CENTER);
         celulaValorUnitario.setBackgroundColor(BaseColor.LIGHT_GRAY);
         PdfPCell celulaTotal = new PdfPCell(new Phrase("Total"));
@@ -50,22 +50,24 @@ public class ControllerTablePDF {
                     List<ModelProdutos> produtos) throws DocumentException {
         if (document.isOpen()) {
             for (ModelProdutos produto : produtos) {
-                PdfPCell celula1 = new PdfPCell(new Phrase(convert(produto.getProEstoque())));
-                PdfPCell celula2 = new PdfPCell(new Phrase(produto.getProNome()));
-                PdfPCell celula3 = new PdfPCell(new Phrase(convert(produto.getProValor())));
-                double soma = produto.getProValor()*produto.getProEstoque();
-                PdfPCell celula4 = new PdfPCell(new Phrase(convert(soma)));
+                if(produto.getProEstoque() > 0){
+                    PdfPCell celula1 = new PdfPCell(new Phrase(convert(produto.getProEstoque())));
+                    PdfPCell celula2 = new PdfPCell(new Phrase(produto.getProNome()));
+                    PdfPCell celula3 = new PdfPCell(new Phrase(convert(produto.getProValor())));
+                    double soma = produto.getProValor()*produto.getProEstoque();
+                    PdfPCell celula4 = new PdfPCell(new Phrase(convert(soma)));
 
-                ControllerTablePDF.soma += soma;
+                    ControllerTablePDF.soma += soma;
 
-                celula1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(celula1);
-                celula2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(celula2);
-                celula3.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(celula3);
-                celula4.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(celula4);
+                    celula1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(celula1);
+                    celula2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(celula2);
+                    celula3.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(celula3);
+                    celula4.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(celula4);
+                }
             }
 
             document.add(table);
