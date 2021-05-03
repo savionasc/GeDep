@@ -10,9 +10,17 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import model.ModelProdutos;
 
-public class GeneratorPDF {
-    public static void main(String[] args) throws BadElementException {
+public class GeradorPDF {
+    private List<ModelProdutos> lprodutos;
+
+    public GeradorPDF(List<ModelProdutos> lprodutos) {
+        this.lprodutos = lprodutos;
+        //lprodutos = new ArrayList<ModelProdutos>();
+    }
+    
+    public void gerarPDF(){
         try {
             Document document = new Document();
 
@@ -21,18 +29,11 @@ public class GeneratorPDF {
             // Abre documento
             document.open();
 
-            PdfPTable table = ControllerTable.criarCabecalho();
+            PdfPTable table = ControllerTablePDF.criarCabecalho();
 
-            List<Pessoa> lpessoa = new ArrayList<Pessoa>();
-            Pessoa pessoa1 = new Pessoa("Antônio", "01/01/1986", 'M');
-            Pessoa pessoa2 = new Pessoa("Sávio", "02/02/1986", 'M');
-            Pessoa pessoa3 = new Pessoa("Sávio N", "03/03/1986", 'M');
-
-            lpessoa.add(pessoa1);
-            lpessoa.add(pessoa2);
-            lpessoa.add(pessoa3);
-
-            ControllerTable.preencherDados(document, table, lpessoa);
+            ControllerTablePDF.preencherDados(document, table, lprodutos);
+            
+            ControllerTablePDF.preencherSoma(document);
 
             // Encerra documento
             document.close();
@@ -42,5 +43,8 @@ public class GeneratorPDF {
         } catch (IOException ioe) {
                 System.err.println(ioe.getMessage());
         }
+    }
+    
+    public static void main(String[] args) throws BadElementException {
     }
 }

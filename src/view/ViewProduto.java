@@ -18,7 +18,6 @@ import utils.Formatador;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 

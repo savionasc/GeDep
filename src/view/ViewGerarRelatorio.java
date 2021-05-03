@@ -1,23 +1,30 @@
-package relatorio;
+package view;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import controller.ControllerProdutos;
 import java.io.OutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.ModelProdutos;
+import relatorio.GeradorPDF;
 
 import utils.conexao;
 
-public class GerarRelatDB extends javax.swing.JFrame {
+public class ViewGerarRelatorio extends javax.swing.JFrame {
+    
+    ArrayList<ModelProdutos> listaModelProdutos = new ArrayList<>();
+    ControllerProdutos controllerProdutos = new ControllerProdutos();
 
     conexao con_material;
-    public GerarRelatDB() {
+    public ViewGerarRelatorio() {
         initComponents();
         con_material = new conexao();
         con_material.conecta();
@@ -25,7 +32,7 @@ public class GerarRelatDB extends javax.swing.JFrame {
         try {
             con_material.resultset.first();
         } catch (SQLException ex) {
-            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewGerarRelatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
     }
@@ -129,47 +136,54 @@ public class GerarRelatDB extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Document documento = new Document();
-        try {
-            OutputStream o = new FileOutputStream("historico.pdf");
-            PdfWriter.getInstance(documento, o);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DocumentException ex) {
-            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        documento.open();
-        Paragraph paragrafo = new Paragraph("");
-        paragrafo.add("Funcionario, Quantidade, data da retirada, nome do produto, tipo");
-        try {
-            documento.add(paragrafo);
-            paragrafo.remove(0);
-
-        } catch (DocumentException ex) {
-            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            //documento.add(paragrafo);
-            try{
-                while(con_material.resultset.next()){
-                    String rt = con_material.resultset.getString("nomefuncionario");
-                    String rx = con_material.resultset.getString("quantidade");
-                    String zt = con_material.resultset.getString("data");
-                    String zx = con_material.resultset.getString("Nomeproduto");
-                    String xx = con_material.resultset.getString("tipo");
-                    paragrafo.add(rt+",    "+rx+",    "+zt+",    "+zx+",    "+xx);
-                    documento.add(paragrafo);
-                    paragrafo.remove(0);
-                }con_material.resultset.first();//foi isso
-            }catch(SQLException erro){
-                JOptionPane.showMessageDialog(null, "Erro ao listar  " + erro);
+        if(true){
+            listaModelProdutos = controllerProdutos.retornaListaProdutoController();
+            GeradorPDF g = new GeradorPDF(listaModelProdutos);
+            g.gerarPDF();
+            JOptionPane.showMessageDialog(this, "Relatório Gerado!");
+        }else{
+            Document documento = new Document();
+            try {
+                OutputStream o = new FileOutputStream("historico.pdf");
+                PdfWriter.getInstance(documento, o);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ViewGerarRelatorio.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DocumentException ex) {
+                Logger.getLogger(ViewGerarRelatorio.class.getName()).log(Level.SEVERE, null, ex);
             }
-            documento.close();
-        } catch (DocumentException ex) {
-            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
+
+            documento.open();
+            Paragraph paragrafo = new Paragraph("");
+            //paragrafo.add("Funcionario, Quantidade, data da retirada, nome do produto, tipo");
+            paragrafo.add("Quantidade, Produto, Valor Unitário, Total");
+            try {
+                documento.add(paragrafo);
+                paragrafo.remove(0);
+
+            } catch (DocumentException ex) {
+                Logger.getLogger(ViewGerarRelatorio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                //documento.add(paragrafo);
+                try{
+                    while(con_material.resultset.next()){
+                        String rt = con_material.resultset.getString("pro_estoque");
+                        String rx = con_material.resultset.getString("pro_nome");
+                        String zt = con_material.resultset.getString("pro_valor");
+                        String zx = (Double.parseDouble(rt) * Double.parseDouble(zt))+"";
+                        paragrafo.add(rt+",    "+rx+",    "+zt+",    "+zx);
+                        documento.add(paragrafo);
+                        paragrafo.remove(0);
+                    }con_material.resultset.first();//foi isso
+                }catch(SQLException erro){
+                    JOptionPane.showMessageDialog(null, "Erro ao listar  " + erro);
+                }
+                documento.close();
+            } catch (DocumentException ex) {
+                Logger.getLogger(ViewGerarRelatorio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(rootPane, "Relatório gerado.");
         }
-        JOptionPane.showMessageDialog(rootPane, "Relatório gerado.");
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -193,14 +207,18 @@ public class GerarRelatDB extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewGerarRelatorio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewGerarRelatorio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewGerarRelatorio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerarRelatDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewGerarRelatorio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -209,7 +227,7 @@ public class GerarRelatDB extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerarRelatDB().setVisible(true);
+                new ViewGerarRelatorio().setVisible(true);
             }
         });
     }
@@ -222,16 +240,16 @@ public class GerarRelatDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel tf_data1;
     // End of variables declaration//GEN-END:variables
-public void pesquisando(){
+    /*public void pesquisando(){
 
-        con_material.executeSQL("select * from historico");
+        con_material.executeSQL("select * from tbl_produto");
         try {
             con_material.resultset.first();
         } catch (SQLException ex) {
-            Logger.getLogger(GerarRelatDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewGerarRelatorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-}
-public void preencher_jtable(){
+    }*/
+    /*public void preencher_jtable(){
         try{
             while(con_material.resultset.next()){
                 con_material.resultset.getString("nomefuncionario");
@@ -239,5 +257,5 @@ public void preencher_jtable(){
         }catch(SQLException erro){
             JOptionPane.showMessageDialog(null, "Erro ao listar as bairros " + erro);   
         }   
-    }
+    }*/
 }

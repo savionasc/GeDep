@@ -50,8 +50,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jbUsuarios = new javax.swing.JButton();
         jbPDV = new javax.swing.JButton();
-        jbPDV1 = new javax.swing.JButton();
+        jbRelatorio = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiSair = new javax.swing.JMenuItem();
@@ -102,19 +103,27 @@ public class ViewPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jbUsuarios.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jbUsuarios.setText("Usuários");
+        jbUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbUsuariosActionPerformed(evt);
+            }
+        });
+
         jbPDV.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jbPDV.setText("Usuários");
+        jbPDV.setText("PDV");
         jbPDV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbPDVActionPerformed(evt);
             }
         });
 
-        jbPDV1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jbPDV1.setText("PDV");
-        jbPDV1.addActionListener(new java.awt.event.ActionListener() {
+        jbRelatorio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jbRelatorio.setText("Relatório");
+        jbRelatorio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbPDV1ActionPerformed(evt);
+                jbRelatorioActionPerformed(evt);
             }
         });
 
@@ -129,8 +138,9 @@ public class ViewPrincipal extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbUsuarios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbPDV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbPDV1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbRelatorio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -145,10 +155,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbUsuarios)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbPDV)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbPDV1)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addComponent(jbRelatorio)
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout uJPanelImagem1Layout = new javax.swing.GroupLayout(uJPanelImagem1);
@@ -286,15 +298,20 @@ public class ViewPrincipal extends javax.swing.JFrame {
         new ViewVendas().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jbPDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPDVActionPerformed
+    private void jbUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUsuariosActionPerformed
         // TODO add your handling code here:
         new ViewUsuario().setVisible(true);
-    }//GEN-LAST:event_jbPDVActionPerformed
+    }//GEN-LAST:event_jbUsuariosActionPerformed
 
-    private void jbPDV1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPDV1ActionPerformed
+    private void jbPDVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPDVActionPerformed
         // TODO add your handling code here:
         new ViewPDV().setVisible(true);
-    }//GEN-LAST:event_jbPDV1ActionPerformed
+    }//GEN-LAST:event_jbPDVActionPerformed
+
+    private void jbRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRelatorioActionPerformed
+        // TODO add your handling code here:
+        new ViewGerarRelatorio().setVisible(true);
+    }//GEN-LAST:event_jbRelatorioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,7 +359,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbPDV;
-    private javax.swing.JButton jbPDV1;
+    private javax.swing.JButton jbRelatorio;
+    private javax.swing.JButton jbUsuarios;
     private javax.swing.JMenuItem jmiClientes;
     private javax.swing.JMenuItem jmiProdutos;
     private javax.swing.JMenuItem jmiSair;
