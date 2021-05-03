@@ -41,16 +41,20 @@ public class ControllerTablePDF {
 
         return table;
     }
+    
+    private static String convert(Object o){
+        return new DecimalFormat("#.##").format(o);
+    }
 
     public static void preencherDados(Document document, PdfPTable table,
                     List<ModelProdutos> produtos) throws DocumentException {
         if (document.isOpen()) {
             for (ModelProdutos produto : produtos) {
-                PdfPCell celula1 = new PdfPCell(new Phrase(String.valueOf(produto.getProEstoque())));
+                PdfPCell celula1 = new PdfPCell(new Phrase(convert(produto.getProEstoque())));
                 PdfPCell celula2 = new PdfPCell(new Phrase(produto.getProNome()));
-                PdfPCell celula3 = new PdfPCell(new Phrase(String.valueOf(produto.getProValor())));
+                PdfPCell celula3 = new PdfPCell(new Phrase(convert(produto.getProValor())));
                 double soma = produto.getProValor()*produto.getProEstoque();
-                PdfPCell celula4 = new PdfPCell(new Phrase(String.valueOf(soma)));
+                PdfPCell celula4 = new PdfPCell(new Phrase(convert(soma)));
 
                 ControllerTablePDF.soma += soma;
 
@@ -68,18 +72,6 @@ public class ControllerTablePDF {
         }
     }
     
-    public static PdfPTable CabecalhoSomaTotal() throws DocumentException {
-        PdfPTable table = new PdfPTable(new float[] { 12f });
-        //table.setTotalWidth(600f); //Definindo o tamanho fixo pra tabela
-        //table.setLockedWidth(true);
-        PdfPCell celulaTotal = new PdfPCell(new Phrase("Total"));
-        celulaTotal.setHorizontalAlignment(Element.ALIGN_CENTER);
-        celulaTotal.setBackgroundColor(BaseColor.LIGHT_GRAY);
-        table.addCell(celulaTotal);
-
-        return table;
-    }
-    
     public static void preencherSoma(Document document) throws DocumentException {
         if (document.isOpen()) {
             
@@ -91,7 +83,9 @@ public class ControllerTablePDF {
             celulaTotal.setBackgroundColor(BaseColor.LIGHT_GRAY);
             table.addCell(celulaTotal);
             
-            PdfPCell celulaSoma = new PdfPCell(new Phrase(new DecimalFormat("#.##").format(ControllerTablePDF.soma)));
+            //String valor = new DecimalFormat("#.##").format(ControllerTablePDF.soma);
+            //valor.replace(".", ",");
+            PdfPCell celulaSoma = new PdfPCell(new Phrase(convert(ControllerTablePDF.soma)));
             celulaSoma.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(celulaSoma);
 
